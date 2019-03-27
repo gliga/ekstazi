@@ -1,0 +1,20 @@
+<lifecycles>
+  <lifecycle>
+    <id>ekstazi</id>
+    <phases>
+      <phase>
+        <id>process-test-classes</id>
+        <executions>
+          <execution>
+            <goals>
+              <goal>select</goal>
+            </goals>
+          </execution>
+        </executions>
+      </phase>
+      <phase>
+        <id>test</id>
+      </phase>
+    </phases>
+  </lifecycle>
+</lifecycles>

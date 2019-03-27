@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Agent-Class: org.ekstazi.agent.EkstaziAgent
+Can-Redefine-Classes: true
+Can-Retransform-Classes: true
+Premain-Class: org.ekstazi.agent.EkstaziAgent
+Built-By: Milos Gligoric <milos.gligoric@gmail.com>

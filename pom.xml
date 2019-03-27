@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.ekstazi</groupId>
+  <artifactId>org.ekstazi.parent</artifactId>
+  <version>5.3.0</version> <!-- EkstaziVersion -->
+  <packaging>pom</packaging>
+
+  <name>${project.groupId}:${project.artifactId}</name>
+  <url>www.ekstazi.org</url>
+
+  <description>Ekstazi: Regression testing tool for Java - parent project</description>
+  
+  <scm>
+    <url>https://github.com/gliga/ekstazi</url>
+    <connection>scm:git:git@github.com:gliga/ekstazi.git</connection>
+    <developerConnection>scm:git:git@github.com:gliga/ekstazi.git</developerConnection>
+  </scm>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>gliga</id>
+      <name>Milos Gligoric</name>
+      <email>milos.gligoric@gmail.com</email>
+      <url>http://mir.cs.illinois.edu/gliga</url>
+    </developer>
+    <developer>
+      <id>marinov</id>
+      <name>Darko Marinov</name>
+      <email>marinov@illinois.edu</email>
+      <url>http://mir.cs.illinois.edu/marinov</url>
+    </developer>
+    <developer>
+      <id>lamyaa</id>
+      <name>Lamyaa Eloussi</name>
+      <email>lamyaa.eloussi@gmail.com</email>
+      <url>http://mir.cs.illinois.edu/lamyaa</url>
+    </developer>
+  </developers>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>sonatype</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+    </repository>
+  </distributionManagement>
+
+  <modules>
+    <module>ekstazi-maven-plugin</module>
+    <!-- <module>org.ekstazi.ant</module> -->
+    <module>org.ekstazi.core</module>
+    <module>ekstazi-maven-plugin.test</module>
+    <module>org.ekstazi.core.test</module>
+    <!-- <module>org.ekstazi.scalatest</module> -->
+    <!-- <module>org.ekstazi.ant.test</module> -->
+  </modules>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.10</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.10.17</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.2</version>
+        <configuration>
+          <debug>true</debug>
+          <debuglevel>none</debuglevel>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+
+          <!-- Sign artifacts -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.5</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!-- Pack javadoc -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>2.5</version>
+            <executions>
+              <execution>
+                <id>empty-javadoc-jar</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+                <configuration>
+                  <archive>
+                    <addMavenDescriptor>false</addMavenDescriptor>
+                  </archive>
+                  <classifier>javadoc</classifier>
+                  <classesDirectory>${basedir}/src</classesDirectory>
+                  <includes>
+                    <include>**/*README.txt</include>
+                  </includes>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!-- <plugin> -->
+          <!--   <groupId>org.apache.maven.plugins</groupId> -->
+          <!--   <artifactId>maven-javadoc-plugin</artifactId> -->
+          <!--   <version>2.10</version> -->
+          <!--   <configuration> -->
+          <!--     <sourceFileExcludes> -->
+          <!--       <sourceFileExclude>**/*.java</sourceFileExclude> -->
+          <!--     </sourceFileExcludes> -->
+          <!--   </configuration> -->
+          <!--   <executions> -->
+          <!--     <execution> -->
+          <!--       <id>attach-javadocs</id> -->
+          <!--       <goals> -->
+          <!--         <goal>jar</goal> -->
+          <!--       </goals> -->
+          <!--     </execution> -->
+          <!--   </executions> -->
+          <!-- </plugin> -->
+
+          <!-- Pack sources -->
+          <plugin>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>2.3</version>
+            <configuration>
+              <excludes>
+                <exclude>**/*.java</exclude>
+              </excludes>
+            </configuration>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>

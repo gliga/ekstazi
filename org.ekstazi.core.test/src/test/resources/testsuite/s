@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# This script was used while developing the test (this means that the
+# script is not maintained and it is not supposed to be used to run
+# tests).
+
+javac -cp ../junit-4.10.jar AllTest.java  ATest.java BTest.java C1.java
+java -javaagent:$HOME/.m2/repository/org/ekstazi/org.ekstazi.core/4.6.3/org.ekstazi.core-4.6.3.jar=mode=junit -cp ../junit-4.10.jar:. org.junit.runner.JUnitCore AllTest
+
+javac -cp ../junit-4.10.jar AllTest.java  ATest.java BTest.java C2.java
+java -javaagent:$HOME/.m2/repository/org/ekstazi/org.ekstazi.core/4.6.3/org.ekstazi.core-4.6.3.jar=mode=junit -cp ../junit-4.10.jar:. org.junit.runner.JUnitCore AllTest

@@ -1,7 +1,7 @@
 Ekstazi
 =======
 
-![Image of Ekstazi](http://ekstazi.org/Ekstazi.png)
+<img src="http://ekstazi.org/Ekstazi.png" alt="Ekstazi" width="238" height="224"> 
 
 Ekstazi is a tool for Regression Test Selection (RTS) for Java.
 

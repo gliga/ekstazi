@@ -28,8 +28,8 @@ import org.ekstazi.hash.Hasher;
 import org.ekstazi.log.Log;
 
 /**
- * IO API for storing/reading dependencies. Currently there is no
- * enforcement, but it is expected that all subclasses write/read
+ * API for storing/reading dependencies. Currently there is no
+ * enforcement, but it is expected that subclasses write/read
  * magic/version sequence as the first several bytes/characters.
  */
 public abstract class Storer {
@@ -38,7 +38,7 @@ public abstract class Storer {
      * Storing mode.
      */
     public enum Mode {
-        TXT("# 1"), PREFIX_TXT("# 4"), BIN("# 2"), TIME_TXT("# 3");
+        TXT("# 1"), PREFIX_TXT("# 4");
 
         /** Magic/version sequence */
         private final String mMagicSequence;

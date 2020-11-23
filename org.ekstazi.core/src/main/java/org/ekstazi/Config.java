@@ -29,7 +29,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.ekstazi.data.BinStorer;
 import org.ekstazi.data.DependencyAnalyzer;
 import org.ekstazi.data.PrefixTxtStorer;
 import org.ekstazi.data.Storer;
@@ -121,7 +120,7 @@ public final class Config {
     // DEPENDENCIES
 
     @Opt(desc = "Dependency formatter.")
-    private static String DEPENDENCIES_FORMAT_V = Storer.Mode.BIN.toString();
+    private static String DEPENDENCIES_FORMAT_V = Storer.Mode.TXT.toString();
     protected static final String DEPENDENCIES_FORMAT_N = "dependencies.format";
 
     @Opt(desc = "Collect dependencies on JUnit, Maven, and Hamcrest.")
@@ -547,8 +546,6 @@ public final class Config {
         Storer.Mode mode = Storer.Mode.fromString(DEPENDENCIES_FORMAT_V);
         if (mode == Storer.Mode.TXT) {
             return new TxtStorer();
-        } else if (mode == Storer.Mode.BIN) {
-            return new BinStorer();
         } else if (mode == Storer.Mode.PREFIX_TXT) {
             return new PrefixTxtStorer();
         } else {

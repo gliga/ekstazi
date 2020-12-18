@@ -173,14 +173,6 @@ public class FileRecorder extends SecurityManager {
     }
 
     @Override
-    public void checkSystemClipboardAccess() {
-    }
-
-    @Override
-    public void checkAwtEventQueueAccess() {
-    }
-
-    @Override
     public void checkPackageAccess(String pkg) {
     }
 
@@ -190,10 +182,6 @@ public class FileRecorder extends SecurityManager {
 
     @Override
     public void checkSetFactory() {
-    }
-
-    @Override
-    public void checkMemberAccess(Class<?> clazz, int which) {
     }
 
     @Override

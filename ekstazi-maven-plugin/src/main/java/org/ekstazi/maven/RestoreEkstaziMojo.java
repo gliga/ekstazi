@@ -32,12 +32,14 @@ import java.util.List;
 import java.util.ArrayList;
 
 import org.ekstazi.agent.EkstaziAgent;
+import org.ekstazi.log.Log;
 import org.ekstazi.util.FileUtil;
 
 @Mojo(name = "restore", defaultPhase = LifecyclePhase.TEST)
 public class RestoreEkstaziMojo extends AbstractEkstaziMojo {
 
     public void execute() throws MojoExecutionException {
+        Log.d2f("RestoreEkstaziMojo.java line 42");
         if (getSkipme()) {
             getLog().info("Ekstazi is skipped.");
             return;

@@ -169,10 +169,10 @@ public class TxtStorer extends Storer {
                 // printLine(state, pw, "# Hello", "World!");
                 // throw new RuntimeException();
             }
-            Log.d2f("Log in TxtStorer.java line 172");
+            //Log.d2f("Log in TxtStorer.java line 172");
         } catch (IOException ex) {
             Log.e("Problems while saving dependencies");
-            Log.d2f("Problems while saving dependencies in TxtStorer.java line 175");
+            //Log.d2f("Problems while saving dependencies in TxtStorer.java line 175");
         } finally {
             FileUtil.closeAndIgnoreExceptions(pw);
         }

@@ -23,6 +23,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 
 import java.io.File;
 
+import org.ekstazi.log.Log;
 import org.ekstazi.util.FileUtil;
 import org.ekstazi.Names;
 
@@ -33,6 +34,7 @@ import org.ekstazi.Names;
 public class CleanEkstaziMojo extends AbstractEkstaziMojo {
 
     public void execute() throws MojoExecutionException {
+        Log.d2f("CleanEkstaziMojo.java line 37");
         File dotEkstazi = new File(parentdir, Names.EKSTAZI_ROOT_DIR_NAME);
         if (dotEkstazi.exists()) {
             FileUtil.deleteDirectory(dotEkstazi);

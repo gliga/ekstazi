@@ -100,6 +100,7 @@ public class StaticSelectEkstaziMojo extends AbstractEkstaziMojo {
     }
 
     public void execute() throws MojoExecutionException {
+        Log.d2f("StaticSelectEkstaziMojo.java line 103");
         // Check if user explicitly requested to not use Ekstazi in
         // this run.
         if (getSkipme()) {
@@ -124,6 +125,7 @@ public class StaticSelectEkstaziMojo extends AbstractEkstaziMojo {
 
         boolean isForkMode = isForkMode(surefirePlugin);
         // Include agent to be used during test run.
+        Log.d2f("Add java agent StaticSelectEkstaziMojo.java line 128");
         addJavaAgent(isForkMode ? Config.AgentMode.JUNITFORK : Config.AgentMode.JUNIT);
 
         List<String> nonAffectedClasses = computeNonAffectedClasses();
@@ -173,6 +175,7 @@ public class StaticSelectEkstaziMojo extends AbstractEkstaziMojo {
 
     private String prepareEkstaziOptions(URL agentJarURL, Config.AgentMode junitMode) throws URISyntaxException {
         String agentAbsolutePath = new File(agentJarURL.toURI().getSchemeSpecificPart()).getAbsolutePath();
+        Log.d2f("junitMode = " + junitMode);
         return "-javaagent:" + agentAbsolutePath + "=mode=" + junitMode +
             ",force.all=" + getForceall() +
             ",force.failing=" + getForcefailing() +

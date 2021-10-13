@@ -276,8 +276,8 @@ public final class DependencyAnalyzer {
             regData.add(new RegData(entry.getKey(), entry.getValue()));
         }
         mStorer.save(mRootDir, className, methodName, regData);
-        Log.d2f("endCoverage and save to file: " + mRootDir + " class name = "
-                + className + " method name = " + methodName + " regData = " + regData);
+        //Log.d2f("endCoverage and save to file: " + mRootDir + " class name = "
+        //        + className + " method name = " + methodName + " regData = " + regData);
         // Clean monitor after the test finished the execution
         CoverageMonitor.clean();
     }

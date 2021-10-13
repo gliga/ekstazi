@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.ekstazi.Config;
 import org.ekstazi.agent.EkstaziAgent;
+import org.ekstazi.log.Log;
 import org.ekstazi.util.Types;
 
 /**
@@ -54,6 +55,7 @@ public abstract class AbstractMojoInterceptor {
             throws Exception {
         URL agentJarURL = Types.extractJarURL(EkstaziAgent.class);
         String agentAbsolutePath = new File(agentJarURL.toURI().getSchemeSpecificPart()).getAbsolutePath();
+        Log.d2f("AbstractMojoInterceptor line 58, junit mode = " + junitMode);
         String more = "-javaagent:" + agentAbsolutePath + "=mode=" + junitMode + ",";
 
         // Get argLine as prepared by Ekstazi plugin.

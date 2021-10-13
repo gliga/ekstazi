@@ -55,7 +55,7 @@ public class EkstaziAgent {
      */
     public static void premain(String options, Instrumentation instrumentation) { // for `java -javaagent:java -javaagent:org.ekstazi.core-${version}.jar=<options>`
         // Load options.
-        Log.d2f("premain-Shuai");
+        Log.d2f("premain-zzz");
         System.out.println("====>Shuai_Debug!!!!");
         Thread.dumpStack();
         Config.loadConfig(options, false);

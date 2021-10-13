@@ -23,6 +23,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 
 import org.ekstazi.agent.EkstaziAgent;
+import org.ekstazi.log.Log;
 
 /**
  * This Mojo is used only to define Ekstazi lifecycle.  As Ekstazi has
@@ -35,5 +36,6 @@ public class EkstaziCycleMojo extends StaticSelectEkstaziMojo {
 
     public void execute() throws MojoExecutionException {
         // Nothing.
+        Log.d2f("EkstaziCycleMojo.java line 39");
     }
 }

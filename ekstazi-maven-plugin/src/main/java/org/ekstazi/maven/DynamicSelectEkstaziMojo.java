@@ -29,6 +29,7 @@ import java.util.List;
 import org.ekstazi.Config;
 import org.ekstazi.agent.AgentLoader;
 import org.ekstazi.agent.EkstaziAgent;
+import org.ekstazi.log.Log;
 
 /**
  * Implements selection process and integrates with Surefire.  This
@@ -41,6 +42,7 @@ import org.ekstazi.agent.EkstaziAgent;
 public class DynamicSelectEkstaziMojo extends StaticSelectEkstaziMojo {
 
     public void execute() throws MojoExecutionException {
+        Log.d2f("DynamicSelectEkstaziMojo.java line 45");
         if (getSkipme()) {
             getLog().info("Ekstazi is skipped.");
             return;

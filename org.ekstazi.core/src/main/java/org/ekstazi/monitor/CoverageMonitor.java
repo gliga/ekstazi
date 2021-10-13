@@ -60,7 +60,7 @@ public final class CoverageMonitor {
 
     /** Collected urls that should not be removed on clean */
     private static final Set<String> sUncleanableURLs = new HashSet<String>();
-    
+
     /** Strings used to identify URL for JUnit */
     private static final String JUNIT_FRAMEWORK_URL_PART = "!/" + Names.JUNIT_FRAMEWORK_PACKAGE_VM;
     private static final String ORG_JUNIT_URL_PART = "!/" + Names.ORG_JUNIT_PACKAGE_VM;
@@ -101,7 +101,7 @@ public final class CoverageMonitor {
         }
     }
 
-    // Unsed for tests only.
+    // Used for tests only.
     public static void cleanUncleanable() {
         try {
             sLock.lock();
@@ -148,7 +148,7 @@ public final class CoverageMonitor {
             sLock.unlock();
         }
     }
-    
+
     /**
      * Returns the set of dynamically collected urls. Note that this method is
      * invoked from other parts of our system to obtain the collected data.
@@ -181,7 +181,7 @@ public final class CoverageMonitor {
     /**
      * Touch method. Instrumented code invokes this method to collect class
      * coverage.
-     * 
+     *
      * IMPORTANT: "synchronized" on the following method leads to slow execution
      * for a large number of invocation (even in sequential code).
      * {@link Semaphore} is (slightly) faster but it may be too much for the
@@ -203,8 +203,8 @@ public final class CoverageMonitor {
             sLock.unlock();
         }
 
-        String className = clz.getName();
-        String resourceName = className.substring(className.lastIndexOf(".") + 1).concat(".class");
+        String className = clz.getName();  // e.g. java.lang.String
+        String resourceName = className.substring(className.lastIndexOf(".") + 1).concat(".class");  // e.g. java.lang.String.class -> actual class file name
         URL url = null;
         try {
             // Find resource for the class (URL that we will use to extract
@@ -223,7 +223,7 @@ public final class CoverageMonitor {
     /**
      * Touch method, which also accepts probe id. The id can be used to optimize
      * execution.
-     * 
+     *
      * The current optimization is as follows: we check if index at probeId
      * location is set; if yes, then we do nothing, but if not, we set it and
      * invoke original touch method. As we use limited size of probe array, we
@@ -256,7 +256,7 @@ public final class CoverageMonitor {
     /**
      * Touch method, which also accepts probe id. The probe id can be used to
      * optimize execution.
-     * 
+     *
      * See {@link #t(Class, int)} for further comments.
      */
     public static void f(Object o, int probeId) {
@@ -273,7 +273,7 @@ public final class CoverageMonitor {
 
     /**
      * Records the given file as a dependency after some filtering.
-     * 
+     *
      * @param f
      *            File to record as a dependency
      */
@@ -293,7 +293,7 @@ public final class CoverageMonitor {
     /**
      * Records the given external form of URL as a dependency after checking if
      * it should be filtered.
-     * 
+     *
      * @param externalForm
      */
     protected static void recordURL(String externalForm) {
@@ -313,7 +313,7 @@ public final class CoverageMonitor {
 
     /**
      * Records the given external form of URL as a dependency.
-     * 
+     *
      * @param externalForm
      */
     private static void safeRecordURL(String externalForm) {

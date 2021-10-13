@@ -45,7 +45,7 @@ public abstract class Storer {
 
         /**
          * Constructor.
-         * 
+         *
          * @param magicSequence
          *            Magic/version sequence associated with mode.
          */
@@ -55,7 +55,7 @@ public abstract class Storer {
 
         /**
          * Returns magic/version sequence for this mode.
-         * 
+         *
          * @return Magic/version sequence.
          */
         public String getMagicSequence() {
@@ -65,10 +65,10 @@ public abstract class Storer {
         /**
          * This method guarantees to return a correct mode if one is not cannot
          * be parsed.
-         * 
+         *
          * @param text
          *            Mode as provides in configuration.
-         * 
+         *
          * @return Storing mode.
          */
         public static Mode fromString(String text) {
@@ -132,13 +132,14 @@ public abstract class Storer {
         // Ensure that the directory for coverage exists.
         new File(dirName).mkdir();
         String fullName = className + '.' + methodName;
+        Log.d2f("Log in Storer.java line 135: " + fullName);
         save(openFileWrite(dirName, fullName, className, methodName), regData);
     }
 
     /**
      * Loading actual data from the given stream. Implementation in subclasses
      * should have matching load and save methods.
-     * 
+     *
      * @param fis
      *            Stream that contains regression information.
      * @return Regression data.
@@ -148,7 +149,7 @@ public abstract class Storer {
     /**
      * Saving regression data to the given stream. Implementation in subclasses
      * should have matching load and save methods.
-     * 
+     *
      * @param fos
      *            Stream that stores regression information.
      * @param hashes
@@ -167,7 +168,9 @@ public abstract class Storer {
     }
 
     private final void save(FileOutputStream fos, Set<RegData> hashes) {
+        Log.d2f("Log in Storer.java line 171");
         if (fos != null) {
+            Log.d2f("Log in Storer.java line 173");
             extendedSave(fos, hashes);
         }
     }
@@ -176,7 +179,7 @@ public abstract class Storer {
      * Opens {@link FileInputStream}. This method checks if file name is too
      * long and hashes the file name. If there are some other problems, the
      * method gives up and returns null.
-     * 
+     *
      * @param dirName
      *            Destination directory.
      * @param fullName
@@ -213,7 +216,7 @@ public abstract class Storer {
      * Opens {@link FileOutputStream}. This method checks if file name is too
      * long and hashes the name of the file. If there are other problems, this
      * method gives up and returns null.
-     * 
+     *
      * @param dirName
      *            Destination directory.
      * @param fullName
@@ -238,9 +241,11 @@ public abstract class Storer {
                     return openFileWrite(dirName, fullName, null, null);
                 } else {
                     // No hope.
+                    Log.d2f("Could not open file for writing (name too long) " + fullName);
                     Log.w("Could not open file for writing (name too long) " + fullName);
                 }
             } else {
+                Log.d2f("Could not open file for writing " + fullName + " " + ex1.getMessage());
                 Log.w("Could not open file for writing " + fullName + " " + ex1.getMessage());
             }
             return null;

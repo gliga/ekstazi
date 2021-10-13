@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.ekstazi.Config;
 import org.ekstazi.Names;
+import org.ekstazi.log.Log;
 
 /**
  * Monitor invoked before Surefire. The purpose of monitoring is to
@@ -46,7 +47,7 @@ public final class SurefireMojoInterceptor extends AbstractMojoInterceptor {
 
     /**
      * This method is invoked before SurefirePlugin execute method.
-     * 
+     *
      * @param mojo
      *            Surefire plugin.
      * @throws Exception
@@ -75,6 +76,8 @@ public final class SurefireMojoInterceptor extends AbstractMojoInterceptor {
             updateArgLine(mojo);
             // Update excludes.
             updateExcludes(mojo);
+            //System.out.println("In SurefireMojoInterceptor.java:line78: -> updateExcludes");
+            //Thread.dumpStack();
             // Update parallel.
             updateParallel(mojo);
         } catch (Exception ex) {
@@ -92,7 +95,7 @@ public final class SurefireMojoInterceptor extends AbstractMojoInterceptor {
     private static boolean isFailsafePlugin(Object mojo) throws Exception {
         return mojo.getClass().getName().equals(MavenNames.FAILSAFE_PLUGIN_BIN);
     }
-    
+
     private static boolean isAlreadyInvoked(Object mojo) throws Exception {
         String key = Names.TOOL_NAME + System.identityHashCode(mojo);
         String value = System.getProperty(key);
@@ -103,7 +106,7 @@ public final class SurefireMojoInterceptor extends AbstractMojoInterceptor {
     /**
      * Checks that Surefire has all the metohds that are needed, i.e., check
      * Surefire version. Currently we support 2.7 and newer.
-     * 
+     *
      * @param mojo
      *            Surefire plugin
      * @throws Exception
@@ -157,26 +160,28 @@ public final class SurefireMojoInterceptor extends AbstractMojoInterceptor {
         String newArgLine = makeArgLine(mojo, junitMode, currentArgLine);
         setField(ARGLINE_FIELD, mojo, newArgLine);
     }
-    
+
     private static void updateExcludes(Object mojo) throws Exception {
         // Get excludes set by the user (in pom.xml in Surefire).
         List<String> currentExcludes = getListField(EXCLUDES_FIELD, mojo);
         List<String> ekstaziExcludes = new ArrayList<String>(Arrays.asList(System.getProperty(EXCLUDES_INTERNAL_PROP)
                 .replace("[", "").replace("]", "").split(",")));
         List<String> newExcludes = ekstaziExcludes;
+
         if (currentExcludes != null) {
             newExcludes.addAll(currentExcludes);
         } else {
             // Add default excludes as specified by Surefire if excludes is not provided by the user.
             newExcludes.add("**/*$*");
         }
+        Log.d2f(newExcludes);
         setField(EXCLUDES_FIELD, mojo, newExcludes);
     }
 
     /**
      * Sets parallel parameter to null if the parameter is different from null
      * and prints a warning.
-     * 
+     *
      * This method is written in Shanghai'14.
      */
     private static void updateParallel(Object mojo) throws Exception {
@@ -195,7 +200,7 @@ public final class SurefireMojoInterceptor extends AbstractMojoInterceptor {
 
     /**
      * Returns true if one test class is executed in one VM.
-     * 
+     *
      * @param mojo
      *            Mojo
      * @return True if one test class is executed in one VM, false otherwise

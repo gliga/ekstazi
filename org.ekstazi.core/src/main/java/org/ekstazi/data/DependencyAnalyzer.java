@@ -64,7 +64,7 @@ public final class DependencyAnalyzer {
 
     /** root.dir */
     private final String mRootDir;
-    
+
     /** dependencies.append */
     private final boolean mDependenciesAppend;
 
@@ -87,7 +87,7 @@ public final class DependencyAnalyzer {
     public synchronized void beginCoverage(String name) {
         beginCoverage(name, COV_EXT, false);
     }
-    
+
     public synchronized void endCoverage(String name) {
         endCoverage(name, COV_EXT);
     }
@@ -104,7 +104,7 @@ public final class DependencyAnalyzer {
      * This method should be invoked to indicate that coverage measurement
      * should start. In JUnit it is expected that this method will be invoked to
      * measure coverage for a test class.
-     * 
+     *
      * @param className
      *            Tag used to identify this coverage measure.
      */
@@ -121,7 +121,7 @@ public final class DependencyAnalyzer {
      * This method should be invoked to indicated that coverage measurement
      * should end. In JUnit it is expected that this method will be invoked to
      * measure coverage for a test class.
-     * 
+     *
      * @param className
      *            Tag used to identify this coverage measure.
      */
@@ -131,14 +131,14 @@ public final class DependencyAnalyzer {
         }
         endCoverage(className, CLASS_EXT);
     }
-    
+
     /**
      * Checks if class is affected since the last run.
-     * 
+     *
      * @param className
      *            Name of the class.
      * @return True if class if affected, false otherwise.
-     * 
+     *
      * TODO: this method and starting coverage do some duplicate work
      */
     public synchronized boolean isClassAffected(String className) {
@@ -186,7 +186,7 @@ public final class DependencyAnalyzer {
         if (!isIncluded(fullMethodName)) {
             return true;
         }
-        
+
         // Check if test should be always run.
         if (isExcluded(fullMethodName)) {
             if (isRecordAffectedOutcome) {
@@ -202,6 +202,8 @@ public final class DependencyAnalyzer {
         // the coverage (load the old one and new one will be appended).
         if (mFullTestName2Rerun.containsKey(fullMethodName)) {
             Set<RegData> regData = mStorer.load(mRootDir, className, methodName);
+            // Shuai: Load previous round's coverage to the current Coverage Monitor
+            // So that old and new coverage will append to this round.
             CoverageMonitor.addURLs(extractExternalForms(regData));
             return mFullTestName2Rerun.get(fullMethodName);
         }
@@ -223,10 +225,10 @@ public final class DependencyAnalyzer {
 
         // Collect tests that have been affected.
         mFullTestName2Rerun.put(fullMethodName, isAffected);
-        
+
         return isAffected;
     }
-    
+
     private boolean isIncluded(String fullMethodName) {
         boolean isIncluded = false;
         if (mIncludes != null) {
@@ -266,7 +268,7 @@ public final class DependencyAnalyzer {
         }
         return externalForms;
     }
-    
+
     private void endCoverage(String className, String methodName) {
         Map<String, String> hashes = mHasher.hashExternalForms(CoverageMonitor.getURLs());
         Set<RegData> regData = new TreeSet<RegData>(new RegData.RegComparator());
@@ -274,6 +276,8 @@ public final class DependencyAnalyzer {
             regData.add(new RegData(entry.getKey(), entry.getValue()));
         }
         mStorer.save(mRootDir, className, methodName, regData);
+        Log.d2f("endCoverage and save to file: " + mRootDir + " class name = "
+                + className + " method name = " + methodName + " regData = " + regData);
         // Clean monitor after the test finished the execution
         CoverageMonitor.clean();
     }

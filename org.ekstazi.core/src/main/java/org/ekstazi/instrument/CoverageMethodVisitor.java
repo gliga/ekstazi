@@ -32,7 +32,7 @@ import org.ekstazi.util.Types;
 /**
  * {@link MethodVisitor} that instruments code for collecting class coverage. We
  * instrument code by inserting static method calls to {@link CoverageMonitor}.
- * 
+ *
  * This class also implements one optimization. Namely, instead of inserting
  * touch method at each place, we keep set of seen classes in between two
  * labels. If there was no label, there is no reason to insert a touch
@@ -57,15 +57,15 @@ public final class CoverageMethodVisitor extends MethodVisitor {
 
     /** Probe id of the class being visited */
     private final int mClassProbeId;
-    
+
     /** Count unique probes */
     private final AtomicInteger mProbeCounter;
-    
+
     /**
      * Constructor.
      */
     public CoverageMethodVisitor(String className, int classProbeId, AtomicInteger probeCounter, int access,
-            String methodName, MethodVisitor mv, boolean isNewerThanJava4) {
+                                 String methodName, MethodVisitor mv, boolean isNewerThanJava4) {
         super(Instr.ASM_API_VERSION, mv);
         this.mClassName = className;
         this.mClassProbeId = classProbeId;
@@ -85,7 +85,7 @@ public final class CoverageMethodVisitor extends MethodVisitor {
             int sort = ((Type) cst).getSort();
             if (sort == Type.OBJECT) {
                 String className = Types.descToInternalName(((Type) cst).getDescriptor());
-                insertTInvocation0(className, mProbeCounter.incrementAndGet());
+                insertTInvocation0(className, mProbeCounter.incrementAndGet());  //Shuai: collect className as dependency of mClassName
             }
         }
         mv.visitLdcInsn(cst);
@@ -94,7 +94,7 @@ public final class CoverageMethodVisitor extends MethodVisitor {
     @Override
     public void visitCode() {
         if (isNonPrivateStaticMethod() || isNonPrivateInit() || isStaticBlock()) {
-            insertTInvocation0(mClassName, mClassProbeId);
+            insertTInvocation0(mClassName, mClassProbeId);   //Shuai: collect itself as dependency of mClassName
         }
         mv.visitCode();
     }
@@ -104,7 +104,7 @@ public final class CoverageMethodVisitor extends MethodVisitor {
         if (opcode == Opcodes.INVOKEINTERFACE) {
             // Instrument invocation to interface (to ensure that we collect
             // annotations).
-            insertTInvocation0(owner, mProbeCounter.incrementAndGet());
+            insertTInvocation0(owner, mProbeCounter.incrementAndGet());  //Shuai: collect the owner of this method as dependency of mClassName
             mv.visitMethodInsn(opcode, owner, name, desc, itf);
         } else if (owner.equals(Instr.CLASS_CLASS_INTERNAL_NAME)
                 && (!name.equals("forName") && (!name.equals("newInstance")))) {
@@ -130,11 +130,14 @@ public final class CoverageMethodVisitor extends MethodVisitor {
             // Collect declaring class.
             if (!Types.isPrimitiveDesc(desc) && !className.equals(mClassName)
                     && !Types.isIgnorableBinName(className)) {
+                //Shuai: static {DS} XXX = Y; Here DS (i.e. Data structure) is defined in another class file.
+                // So we also need to collect that class as dependency.
                 insertFInvocation(owner, name, desc);
             }
             // Collect the owner of the field.
+            // Shuai:  static XXX = {Another_class}.Y; -> In this way we need to collect {Another_class} as a dependency.
             if (!owner.equals(mClassName)) {
-                insertTInvocation0(owner, mProbeCounter.incrementAndGet());
+                insertTInvocation0(owner, mProbeCounter.incrementAndGet());  //Shuai: collect the owner of this field as dependency of mClassName
             }
         }
         mv.visitFieldInsn(opcode, owner, name, desc);
@@ -168,15 +171,16 @@ public final class CoverageMethodVisitor extends MethodVisitor {
     // approach is not safe: if there is an exception from any of the
     // called methods, classes that are before that method would not
     // be recorded.
-    
+
     // TOUCH INVOCATIONS
+    // Shuai: Push probeId to operand stack
     private void loadProbeValue(int probeId) {
         if (probeId <= 127) {
-            mv.visitIntInsn(Opcodes.BIPUSH, probeId);
-        } else if (probeId <= 32767) {
+            mv.visitIntInsn(Opcodes.BIPUSH, probeId);  // BIPUSH could push a int to operand stack within [-128, 127]
+        } else if (probeId <= 32767) {              // -> It is 2^15-1, so the max value of a 16 bit signed int.
             mv.visitIntInsn(Opcodes.SIPUSH, probeId);
         } else {
-            mv.visitLdcInsn(new Integer(probeId));
+            mv.visitLdcInsn(new Integer(probeId));  // -> use LDC to visit constant pool if probeId not fits in 16 bits
         }
     }
 
@@ -203,7 +207,7 @@ public final class CoverageMethodVisitor extends MethodVisitor {
     /**
      * Checks if the class name belongs to a set of classes that should be
      * ignored; if not, an invocation to coverage monitor is inserted.
-     * 
+     *
      * @param className
      *            Name of the class to be passed to coverage monitor.
      */
@@ -253,7 +257,7 @@ public final class CoverageMethodVisitor extends MethodVisitor {
 
     /**
      * Returns true if visited method is non private and name is <init>.
-     * 
+     *
      * Initially it looked that we may need to collect private constructors too
      * because of reflection calls. However, to get constructor to be invoked,
      * we already collected the class.
@@ -267,7 +271,7 @@ public final class CoverageMethodVisitor extends MethodVisitor {
 
     /**
      * Returns true if visited method is non private and static.
-     * 
+     *
      * See comment for {@link #isNonPrivateInit()}.
      */
     protected boolean isNonPrivateStaticMethod() {

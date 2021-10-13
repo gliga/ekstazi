@@ -43,25 +43,29 @@ public class JUnit4Monitor {
             recursiveDepth--;
         }
     }
-    
+
     /**
      * JUnit4 support.
      */
     public static Runner runnerForClass0(RunnerBuilder builder, Class<?> testClass) throws Throwable {
         if (recursiveDepth > 1 ||
-            isOnStack(0, CoverageRunner.class.getCanonicalName())) {
+                isOnStack(0, CoverageRunner.class.getCanonicalName())) {
             return builder.runnerForClass(testClass);
         }
         AffectingBuilder affectingBuilder = new AffectingBuilder();
         Runner runner = affectingBuilder.runnerForClass(testClass);
         if (runner != null) {
-            return runner;
+            System.out.println("In JUnit4Monitor.java:line58: -> return affectingRunner!");
+            Thread.dumpStack();
+            return runner;        //Shuai: This runner is override run() with null -> which means test class is not affected and no need to be rerun.
         }
-        CoverageMonitor.clean();
+        CoverageMonitor.clean();  // Shuai: Insert this into Initialization part (e.g. @Before part of Junit)
         Runner wrapped = builder.runnerForClass(testClass);
+        System.out.println("In JUnit4Monitor.java:line64: -> return CoverageRunner!");
+        Thread.dumpStack();
         return new CoverageRunner(testClass, wrapped, CoverageMonitor.getURLs());
     }
-    
+
     /**
      * Checks if the given name is on stack more than the given number of times.
      * This method uses startsWith to check if the given name is on stack, so

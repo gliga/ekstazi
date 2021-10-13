@@ -18,9 +18,8 @@ package org.ekstazi.log;
 
 import org.ekstazi.Config;
 
-import java.io.File;
-import java.io.PrintWriter;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.util.List;
 
 /**
  * Simple logging facility.
@@ -52,11 +51,11 @@ public final class Log {
                 }
                 pwFile = new PrintWriter(file);
                 Runtime.getRuntime().addShutdownHook(new Thread() {
-                        @Override
-                        public void run() {
-                            pwFile.close();
-                        }
-                    });
+                    @Override
+                    public void run() {
+                        pwFile.close();
+                    }
+                });
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
@@ -90,7 +89,7 @@ public final class Log {
 
     /**
      * Error during initialization (e.g., configuration error).
-     * 
+     *
      * @param msg
      *            Message to be reported.
      */
@@ -104,7 +103,7 @@ public final class Log {
             ex.printStackTrace();
         }
     }
-    
+
     /**
      * Something may affect performance but not correctness.
      */
@@ -152,4 +151,39 @@ public final class Log {
             pwFile.flush();
         }
     }
+
+    public static void d2f (String s) {
+        try {
+            FileWriter fw = new FileWriter("Shuai_debug.txt", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(s);
+            bw.newLine();
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void d2f (List<String> list) {
+        try {
+            FileWriter fw = new FileWriter("Shuai_debug.txt", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            for (String s : list) {
+                bw.write(s);
+                bw.newLine();
+            }
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void trace2f () {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        new Throwable().printStackTrace(pw);
+        String sStackTrace = sw.toString(); // stack trace as a string
+        d2f(sStackTrace);
+    }
+
 }

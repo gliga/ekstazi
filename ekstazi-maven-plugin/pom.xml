@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <artifactId>org.ekstazi.parent</artifactId>
     <groupId>org.ekstazi</groupId>
-    <version>5.3.0</version> <!-- EkstaziVersion -->
+    <version>5.3.1</version> <!-- EkstaziVersion -->
   </parent>
 
   <artifactId>ekstazi-maven-plugin</artifactId>
@@ -16,7 +16,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>${project.groupId}</groupId>  
+      <groupId>${project.groupId}</groupId>
       <artifactId>org.ekstazi.core</artifactId>
       <version>${project.version}</version>
     </dependency>

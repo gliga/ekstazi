@@ -73,7 +73,7 @@ public final class EkstaziCFT implements ClassFileTransformer {
 
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
-            ProtectionDomain protectionDomain, byte[] classfileBuffer) {
+                            ProtectionDomain protectionDomain, byte[] classfileBuffer) {
 
         // Ensure that monitor is accessible from the ClassLoader.
         if (!isMonitorAccessibleFromClassLoader(loader)) {
@@ -90,6 +90,7 @@ public final class EkstaziCFT implements ClassFileTransformer {
         }
 
         StorageResult storageResult = loadInstrumentedClassfile(loader, className, classfileBuffer);
+        // Shuai: "storageResult != null" if this class file has already been instrumented.
         if (storageResult != null && storageResult.mClassfile != null) {
             return storageResult.mClassfile;
         }
@@ -112,14 +113,14 @@ public final class EkstaziCFT implements ClassFileTransformer {
     }
 
     protected byte[] instrumentClass(ClassLoader loader, String className, boolean isBeingRedefined,
-          StorageResult storageResult, byte[] classfileBuffer) {
+                                     StorageResult storageResult, byte[] classfileBuffer) {
         // Instrument class.
         ClassReader classReader = new ClassReader(classfileBuffer);
         // Removed COMPUTE_FRAMES as I kept seeing linkage error
         // with Java 7. However for our current instrumentation
         // this argument seems not necessary.
         ClassWriter classWriter = new ClassWriter(classReader,
-        /* ClassWriter.COMPUTE_FRAMES | */ClassWriter.COMPUTE_MAXS);
+                /* ClassWriter.COMPUTE_FRAMES | */ClassWriter.COMPUTE_MAXS);
         CoverageClassVisitor visitor = createCoverageClassVisitor(className, classWriter, isBeingRedefined);
         // NOTE: cannot skip debug as some tests depend on these info.
         // classReader.accept(asmClassVisitor, ClassReader.SKIP_DEBUG);
@@ -155,7 +156,7 @@ public final class EkstaziCFT implements ClassFileTransformer {
 
     @Research
     private void storeInstrumentedClassfile(ClassLoader loader, String className, StorageResult storageResult,
-            byte[] classfileBuffer, byte[] modifiedClassfileBuffer) {
+                                            byte[] classfileBuffer, byte[] modifiedClassfileBuffer) {
         if (!mIsSaveInstrumentedHash) {
             return;
         }
@@ -211,7 +212,7 @@ public final class EkstaziCFT implements ClassFileTransformer {
     }
 
     // INTERNAL
-    
+
     /**
      * Creates class visitor to instrument for coverage based on configuration
      * options.
@@ -248,14 +249,14 @@ public final class EkstaziCFT implements ClassFileTransformer {
         }
         return isMonitorAccessible;
     }
-    
+
     // DEBUGGING
 
     /**
      * This method is for debugging purposes. So far one of the best way to
      * debug instrumentation was to actually look at the instrumented code. This
      * method let us choose which class to print.
-     * 
+     *
      * @param className
      *            Name of the class being instrumented.
      * @param classfileBuffer

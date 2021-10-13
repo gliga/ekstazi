@@ -4,14 +4,14 @@
 
   <groupId>org.ekstazi</groupId>
   <artifactId>org.ekstazi.parent</artifactId>
-  <version>5.3.0</version> <!-- EkstaziVersion -->
+  <version>5.3.1</version> <!-- EkstaziVersion -->
   <packaging>pom</packaging>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <url>www.ekstazi.org</url>
 
   <description>Ekstazi: Regression testing tool for Java - parent project</description>
-  
+
   <scm>
     <url>https://github.com/gliga/ekstazi</url>
     <connection>scm:git:git@github.com:gliga/ekstazi.git</connection>
@@ -94,8 +94,11 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.2</version>
         <configuration>
+          <compilerArgs>
+            <arg>-g</arg>
+          </compilerArgs>
           <debug>true</debug>
-          <debuglevel>none</debuglevel>
+          <debuglevel>lines,vars,source</debuglevel>
           <source>1.6</source>
           <target>1.6</target>
         </configuration>

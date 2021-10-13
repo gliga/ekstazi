@@ -21,8 +21,8 @@ package org.ekstazi;
  */
 public final class Names {
     public static final String TOOL_NAME = "Ekstazi";
-    public static final String TOOL_VERSION = "5.3.0"; // EkstaziVersion
-    
+    public static final String TOOL_VERSION = "5.3.1"; // EkstaziVersion
+
     // Configuration.
     /** Configuration file name (in home/user directory) */
     public static final String EKSTAZI_CONFIG_FILE = ".ekstazirc";
@@ -72,8 +72,8 @@ public final class Names {
 
     /** Names of all files used by the tool */
     public static final String[] ALL_FILE_NAMES = {
-        RUN_INFO_FILE_NAME,
-        VERBOSE_FILE_NAME,
-        HASHER_CACHE_FILE_NAME,
-        META_FILE_NAME, };
+            RUN_INFO_FILE_NAME,
+            VERBOSE_FILE_NAME,
+            HASHER_CACHE_FILE_NAME,
+            META_FILE_NAME, };
 }

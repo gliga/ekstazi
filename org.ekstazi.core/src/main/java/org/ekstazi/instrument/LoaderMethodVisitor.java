@@ -30,7 +30,7 @@ import org.ekstazi.monitor.LoaderMonitor;
  * loading classes with multiple class loaders in the same VM. The need for
  * this class was shown during runs of tests in Apache ant, e.g.,
  * org.apache.tools.ant.taskdefs.JavaTest.testResultPropertyZeroNoFork.
- * 
+ *
  * The approach that we follow is simple. We insert code that check if a class
  * being loaded is from Ekstazi package. If that is the case, we forward method
  * invocation to our monitor that invokes system class loader. Also see
@@ -45,10 +45,24 @@ public class LoaderMethodVisitor extends MethodVisitor {
         super(Instr.ASM_API_VERSION, mv);
     }
 
+    /*
+    Shuai:
+    An instrumented example:
+    public String testEkstaziLoader(String param) {
+        return param;
+    }
+    |
+    |
+    V
+    public String testEkstaziLoader(String param) {
+        return (String)(param.startsWith("org.ekstazi") ? loadClass(param) : param);
+    }
+     */
     @Override
     public void visitCode() {
         // Check if string/argument starts has our package as prefix.
-        mv.visitVarInsn(Opcodes.ALOAD, 1);
+        // if (var1.startsWith("org.ekstazi"))
+        mv.visitVarInsn(Opcodes.ALOAD, 1);   //String/argument param1 in method arg
         mv.visitLdcInsn(Names.EKSTAZI_PACKAGE_BIN);
         mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Instr.STRING_CLASS_INTERNAL_NAME, Instr.STARTS_WITH_MNAME,
                 Instr.STARTS_WITH_MDESC, false);

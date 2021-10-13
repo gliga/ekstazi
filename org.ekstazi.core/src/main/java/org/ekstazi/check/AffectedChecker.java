@@ -45,7 +45,7 @@ public class AffectedChecker {
 
     /** user.dir property name */
     private static final String USER_DIR = "user.dir";
-    
+
     /** Print non affected classes in ant mode */
     private static final String ANT_MODE = "--ant";
 
@@ -57,7 +57,7 @@ public class AffectedChecker {
 
     /** Print (non) affected classes in debug mode */
     private static final String DEBUG_MODE = "--debug";
-    
+
     /** Forces cache use */
     private static final String FORCE_CACHE_USE = "--force-cache-use";
 
@@ -92,7 +92,7 @@ public class AffectedChecker {
         }
 
         List<String> nonAffectedClasses = findNonAffectedClasses(coverageDirName, forceCacheUse, allClasses, affectedClasses);
-        
+
         // Print non affected classes.
         printNonAffectedClasses(allClasses, affectedClasses, nonAffectedClasses, mode);
     }
@@ -100,7 +100,7 @@ public class AffectedChecker {
     /**
      * Finds the list of non-affected test classes. This method is intented to
      * be invoked from build plugins/tasks.
-     * 
+     *
      * @param parentDir
      *            Parent directory of .ekstazi directory
      * @param options
@@ -135,7 +135,7 @@ public class AffectedChecker {
      * Finds the list of test classes that had at least one failing test method
      * last time when they were run. This method is intended to be invoked from
      * build plugins/tasks.
-     * 
+     *
      * @param parentDir
      *            Parent directory of .ekstazi
      * @param options
@@ -163,9 +163,10 @@ public class AffectedChecker {
         }
         return formatNonAffectedClassesForAntAndMaven(allFailing);
     }
-    
+
     // INTERNAL
 
+    //Shuai: set USER_DIR -> ".ekstazi/"
     private static void loadConfig(String workingDirectory) {
         String oldWorkingDirectory = System.getProperty(USER_DIR);
         if (workingDirectory != null) {
@@ -177,7 +178,7 @@ public class AffectedChecker {
             System.setProperty(USER_DIR, oldWorkingDirectory);
         }
     }
-    
+
     private static List<String> formatNonAffectedClassesForAntAndMaven(List<String> nonAffectedClasses) {
         List<String> formatted = new ArrayList<String>();
         for (String binClassName : nonAffectedClasses) {
@@ -187,14 +188,14 @@ public class AffectedChecker {
     }
 
     private static List<String> findNonAffectedClasses(String depsDirName, boolean forceCacheUse, Set<String> allClasses,
-            Set<String> affectedClasses) {
+                                                       Set<String> affectedClasses) {
         if (!forceCacheUse) {
             Config.CACHE_SIZES_V = 0;
         }
-        
+
         Config.ROOT_DIR_V = depsDirName;
         File depsDir = new File(Config.ROOT_DIR_V);
-        
+
         if (checkIfDoesNotExist(depsDir)) {
             return Collections.emptyList();
         }
@@ -231,13 +232,13 @@ public class AffectedChecker {
         });
         return sortedFiles;
     }
-    
+
     /**
      * Prints non affected classes in the given mode. If mode is not specified,
      * one class is printed per line.
      */
     private static void printNonAffectedClasses(Set<String> allClasses, Set<String> affectedClasses,
-            List<String> nonAffectedClasses, String mode) {
+                                                List<String> nonAffectedClasses, String mode) {
         if (mode != null && mode.equals(ANT_MODE)) {
             StringBuilder sb = new StringBuilder();
             for (String className : nonAffectedClasses) {
@@ -283,8 +284,8 @@ public class AffectedChecker {
         Hasher hasher = Config.createHasher();
 
         NameBasedCheck classCheck = Config.DEBUG_MODE_V != Config.DebugMode.NONE ?
-            new DebugNameCheck(storer, hasher, DependencyAnalyzer.CLASS_EXT) :
-            new NameBasedCheck(storer, hasher, DependencyAnalyzer.CLASS_EXT);
+                new DebugNameCheck(storer, hasher, DependencyAnalyzer.CLASS_EXT) :
+                new NameBasedCheck(storer, hasher, DependencyAnalyzer.CLASS_EXT);
         NameBasedCheck covCheck = new NameBasedCheck(storer, hasher, DependencyAnalyzer.COV_EXT);
         MethodCheck methodCheck = new MethodCheck(storer, hasher);
         String prevClassName = null;

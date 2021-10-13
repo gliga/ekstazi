@@ -38,12 +38,13 @@ public class AffectingBuilder extends RunnerBuilder {
         if ((TestCase.class.isAssignableFrom(testClass) ||
                 !testClass.isAnnotationPresent(SuiteClasses.class)) &&
                 !Ekstazi.inst().isClassAffected(testClass.getName())) {
+            System.out.println("In AffectingBuilder.java:line41: -> return affectingRunner!");
             return new AffectingRunner(testClass);
         } else {
             return null;
         }
     }
-    
+
     /**
      * Adapter.
      */
@@ -53,7 +54,7 @@ public class AffectingBuilder extends RunnerBuilder {
             return new AffectingBuilder().runnerForClass(testClass);
         }
     }
-    
+
 
     /**
      * Adapter.
@@ -64,7 +65,7 @@ public class AffectingBuilder extends RunnerBuilder {
             return new AffectingBuilder().runnerForClass(testClass);
         }
     }
-    
+
     /**
      * Adapter.
      */

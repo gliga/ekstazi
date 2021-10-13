@@ -52,7 +52,7 @@ public final class Config {
     private static boolean sIsInitialized;
 
     // GENERAL
-    
+
     @Opt(desc = "Name of the directory that keeps coverage data.")
     public static String ROOT_DIR_V = rootDirDefault();
     protected static final String ROOT_DIR_N = "root.dir";
@@ -64,7 +64,7 @@ public final class Config {
     /**
      * Returns a File that describes .ekstazi directory. Note that the directory
      * is not created with this invocation.
-     * 
+     *
      * @param parentDir
      *            Parent directory for .ekstazi directory
      * @return File that describes .ekstazi directory
@@ -76,7 +76,7 @@ public final class Config {
     /**
      * Returns absolute path to .ekstazi director (URI.toString). Note
      * that the directory is not created with this invocation.
-     * 
+     *
      * @param parentDir
      *            Parent directory for .ekstazi directory
      * @return An absolute path (URI.toString) that describes .ekstazi directory
@@ -87,16 +87,17 @@ public final class Config {
     }
 
     // AGENT
-    
+
     public static enum AgentMode {
         NONE,
         SINGLE,
         SINGLEFORK,
         MULTI,
         JUNIT,
+        JUNIT5,
         JUNITFORK,
         SCALATEST;
-        
+
         public static AgentMode fromString(String text) {
             if (text != null) {
                 for (AgentMode b : AgentMode.values()) {
@@ -108,7 +109,11 @@ public final class Config {
             return NONE;
         }
     }
-    
+
+    @Opt(desc = "JUnit5")
+    public static Boolean JUNIT5_ENABLED_V = true;
+    protected static final String JUNIT5_ENABLED_N = "junit5.enabled";
+
     @Opt(desc = "Mode")
     public static AgentMode MODE_V = AgentMode.NONE;
     protected static final String MODE_N = "mode";
@@ -184,7 +189,7 @@ public final class Config {
         SCREEN,
         FILE,
         EVERYWHERE;
-        
+
         public static DebugMode fromString(String text) {
             if (text != null) {
                 for (DebugMode b : DebugMode.values()) {
@@ -310,7 +315,7 @@ public final class Config {
         }
         return properties;
     }
-    
+
     private static void printVerbose(File userHome, File userDir) {
         if (DEBUG_MODE_V == DebugMode.SCREEN || DEBUG_MODE_V == DebugMode.FILE || DEBUG_MODE_V == DebugMode.EVERYWHERE) {
             Field[] options = getAllNonHiddenOptions(Config.class);
@@ -378,7 +383,7 @@ public final class Config {
     /**
      * Checks if properties have correct names. A property has a correct name if
      * it is one of the configuration options.
-     * 
+     *
      * @param props
      *            properties to check.
      * @return true if properties have correct names, false otherwise.
@@ -395,10 +400,10 @@ public final class Config {
 
     /**
      * Returns the number of non experimental options for the given class.
-     * 
+     *
      * @param clz
      *            class that defines options.
-     * 
+     *
      * @return number of non experimental options defined in the given class.
      */
     protected static int getNumOfNonExperimentalOptions(Class<?> clz) {
@@ -458,7 +463,7 @@ public final class Config {
         }
         return names;
     }
-    
+
     protected static Field[] getAllOptions(Class<?> clz) {
         Field[] declaredFields = clz.getDeclaredFields();
         List<Field> options = new ArrayList<Field>();
@@ -569,7 +574,7 @@ public final class Config {
 
     /**
      * Prints configuration options.
-     * 
+     *
      * @param args
      *            Command line arguments (no argument is expected).
      */

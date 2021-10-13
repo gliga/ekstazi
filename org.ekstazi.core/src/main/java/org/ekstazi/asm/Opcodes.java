@@ -37,7 +37,7 @@ package org.ekstazi.asm;
  * opcodes are therefore not defined in this interface. Likewise for LDC,
  * automatically replaced by LDC_W or LDC2_W when necessary, WIDE, GOTO_W and
  * JSR_W.
- * 
+ *
  * @author Eric Bruneton
  * @author Eugene Kuleshov
  */
@@ -68,7 +68,7 @@ public interface Opcodes {
     int ACC_PROTECTED = 0x0004; // class, field, method
     int ACC_STATIC = 0x0008; // field, method
     int ACC_FINAL = 0x0010; // class, field, method, parameter
-    int ACC_SUPER = 0x0020; // class
+    int ACC_SUPER = 0x0020; // class  -> Shuai: Extends
     int ACC_SYNCHRONIZED = 0x0020; // method
     int ACC_OPEN = 0x0020; // module
     int ACC_TRANSITIVE = 0x0020; // module requires
@@ -86,7 +86,7 @@ public interface Opcodes {
     int ACC_ENUM = 0x4000; // class(?) field inner
     int ACC_MANDATED = 0x8000; // parameter, module, module *
     int ACC_MODULE = 0x8000; // class
-    
+
 
     // ASM specific pseudo access flags
 

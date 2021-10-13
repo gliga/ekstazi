@@ -62,7 +62,7 @@ public class CoverageRunner extends Runner implements Filterable, Sortable {
         this.mWrappedRunner = wrapped;
         this.mURLs = urls;
     }
-    
+
     @Override
     public Description getDescription() {
         return mWrappedRunner.getDescription();
@@ -72,7 +72,7 @@ public class CoverageRunner extends Runner implements Filterable, Sortable {
     public void run(RunNotifier notifier) {
         if (isIgnoreAllTests()) {
             return;
-        } else if (isRunWithoutCoverage()) {
+        } else if (isRunWithoutCoverage()) {     // Shuai: Run without coverage means -> No start and end coverage method between each test class.
             mWrappedRunner.run(notifier);
         } else {
             Ekstazi.inst().beginClassCoverage(mClz.getName());
@@ -106,13 +106,13 @@ public class CoverageRunner extends Runner implements Filterable, Sortable {
      * 2) test suite (Suite.class) runner with several classes; however, we do
      * want to collect coverage for Parametrized runners (which are subclasses
      * of Suite runner).
-     * 
+     *
      * @return True if coverage should not be collected, false otherwise.
      */
     private boolean isRunWithoutCoverage() {
         return (mWrappedRunner instanceof AffectingRunner) ||
                 (mWrappedRunner instanceof Suite &&
-                 !(mWrappedRunner instanceof Parameterized || mWrappedRunner instanceof Enclosed));
+                        !(mWrappedRunner instanceof Parameterized || mWrappedRunner instanceof Enclosed));
         // We do not ignore SuiteMethod (JUnit 3), as this class will run all
         // the test defined in suite() method without constructing any other
         // runner.  TODO: we can try to optimize and run each part ourselves.

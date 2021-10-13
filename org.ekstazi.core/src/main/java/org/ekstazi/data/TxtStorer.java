@@ -41,7 +41,7 @@ public class TxtStorer extends Storer {
     /** State passed when processing each line */
     protected static class State {
     }
-    
+
     /** Character between path and hash */
     protected static final String SEPARATOR = " _ ";
 
@@ -71,7 +71,7 @@ public class TxtStorer extends Storer {
     public TxtStorer(boolean checkMagicSequence) {
         this(Mode.TXT, checkMagicSequence);
     }
-    
+
     /**
      * Constructor.
      */
@@ -79,7 +79,7 @@ public class TxtStorer extends Storer {
         super(mode);
         this.mCheckMagicSequence = checkMagicSequence;
     }
-    
+
     // LOAD
 
     @Override
@@ -93,7 +93,7 @@ public class TxtStorer extends Storer {
                 // If magic is correct, load data.
                 State state = newState();
                 while (true) {
-                    String line = br.readLine();
+                    String line = br.readLine();        // Shuai: Each line: URL _ ChecksumValues
                     if (line == null) {
                         break;
                     }
@@ -118,7 +118,7 @@ public class TxtStorer extends Storer {
     protected Reader createReader(FileInputStream fis) {
         return new InputStreamReader(fis);
     }
-    
+
     /**
      * Check magic sequence. Note that subclasses are responsible to decide if
      * something should be read from buffer. This approach was taken to support
@@ -137,7 +137,7 @@ public class TxtStorer extends Storer {
      * Parses a single line from the file. This method is never invoked for
      * magic sequence. The line includes path to file and hash. Subclasses may
      * include more fields.
-     * 
+     *
      * This method returns null if the line is of no interest. This can be used
      * by subclasses to implement different protocols.
      */
@@ -166,9 +166,13 @@ public class TxtStorer extends Storer {
             // Print hashes (we print each separate to avoid new Strings).
             for (RegData regDatum : hashes) {
                 printLine(state, pw, regDatum.getURLExternalForm(), regDatum.getHash());
+                // printLine(state, pw, "# Hello", "World!");
+                // throw new RuntimeException();
             }
+            Log.d2f("Log in TxtStorer.java line 172");
         } catch (IOException ex) {
             Log.e("Problems while saving dependencies");
+            Log.d2f("Problems while saving dependencies in TxtStorer.java line 175");
         } finally {
             FileUtil.closeAndIgnoreExceptions(pw);
         }
@@ -177,7 +181,7 @@ public class TxtStorer extends Storer {
     protected Writer createWriter(FileOutputStream fos) {
         return new OutputStreamWriter(fos);
     }
-    
+
     /**
      * Prints one line to the given writer; the line includes path to file and
      * hash. Subclasses may include more fields.
@@ -190,14 +194,14 @@ public class TxtStorer extends Storer {
     }
 
     // STATE
-    
+
     /**
      * Creates a new state that will be passed for each line being processed.
      */
     protected State newState() {
         return null;
     }
-    
+
     // MAIN (and "tests")
 
     public static void main(String[] args) {

@@ -43,10 +43,10 @@ public final class AgentLoader {
     /**
      * Attaches an agent (where this class belongs) to the current
      * VirtualMachine.
-     * 
+     *
      * TODO: Can we detect if VirtualMachine is loaded by trying to load it
      * again.
-     * 
+     *
      * @return True if the agent is successfully attached, false otherwise.
      */
     public static boolean loadEkstaziAgent() {
@@ -74,7 +74,7 @@ public final class AgentLoader {
 
     /**
      * Loads agent from the given URL.
-     * 
+     *
      * @param agentJarURL
      *            Agent location
      * @return True if loading was successful, false otherwise
@@ -107,7 +107,7 @@ public final class AgentLoader {
     /**
      * Attaches jar where this class belongs to the current VirtualMachine as an
      * agent.
-     * 
+     *
      * @param vmClass
      *            VirtualMachine
      * @throws Exception
@@ -117,14 +117,14 @@ public final class AgentLoader {
         String pid = getPID();
         String agentAbsolutePath = new File(agentJarURL.toURI().getSchemeSpecificPart()).getAbsolutePath();
 
-        Object vm = getAttachMethod(vmClass).invoke(null, new Object[] { pid });
-        getLoadAgentMethod(vmClass).invoke(vm, new Object[] { agentAbsolutePath });
-        getDetachMethod(vmClass).invoke(vm);
+        Object vm = getAttachMethod(vmClass).invoke(null, new Object[] { pid });    //vm = VirtualMachine.attach(pid);  -> Obtain vm
+        getLoadAgentMethod(vmClass).invoke(vm, new Object[] { agentAbsolutePath }); //vm.loadAgent("XXX/EkstaziAgent.jar");
+        getDetachMethod(vmClass).invoke(vm);  //vm.detach();
     }
 
     /**
      * Finds attach method in VirtualMachine.
-     * 
+     *
      * @param vmClass
      *            VirtualMachine class
      * @return 'attach' Method
@@ -139,7 +139,7 @@ public final class AgentLoader {
 
     /**
      * Finds loadAgent method in VirtualMachine.
-     * 
+     *
      * @param vmClass
      *            VirtualMachine class
      * @return 'loadAgent' Method
@@ -154,7 +154,7 @@ public final class AgentLoader {
 
     /**
      * Finds detach method for VirtualMachine.
-     * 
+     *
      * @param vmClass
      *            VirtualMachine class
      * @return 'detach' Method
@@ -170,7 +170,7 @@ public final class AgentLoader {
     /**
      * Loads com.sun.tools.attach.VirtualMachine. (This method was implemented
      * in Hong Kong'14.)
-     * 
+     *
      * @param toolsJarFile
      *            Location of tools.jar
      * @return com.sun.tools.attach.VirtualMachine class
@@ -192,7 +192,7 @@ public final class AgentLoader {
     /**
      * Returns process id. Note that Java does not guarantee any format for id,
      * so this is just a common heuristic.
-     * 
+     *
      * @return Current process id
      */
     private static String getPID() {
@@ -202,7 +202,7 @@ public final class AgentLoader {
 
     /**
      * Finds tools.jar in JDK.
-     * 
+     *
      * @return File for tools.jar, which may not be valid if tools.jar could
      *         have not been located
      */
@@ -230,7 +230,7 @@ public final class AgentLoader {
 
     /**
      * Checks if process is running on Mac.
-     * 
+     *
      * @return True if OS is on Mac, false otherwise
      */
     private static boolean isMac() {
@@ -239,7 +239,7 @@ public final class AgentLoader {
 
     /**
      * Simple main method used for initial testing.
-     * 
+     *
      * @param args
      *            Command line arguments
      */

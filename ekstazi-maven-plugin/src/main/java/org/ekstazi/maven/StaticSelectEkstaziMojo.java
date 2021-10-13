@@ -46,6 +46,7 @@ import org.ekstazi.Config;
 import org.ekstazi.agent.EkstaziAgent;
 import org.ekstazi.check.AffectedChecker;
 import org.ekstazi.Names;
+import org.ekstazi.log.Log;
 import org.ekstazi.util.Types;
 import org.ekstazi.util.FileUtil;
 

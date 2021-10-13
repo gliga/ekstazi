@@ -27,6 +27,7 @@ import org.ekstazi.asm.ClassWriter;
 import org.ekstazi.asm.Label;
 import org.ekstazi.asm.MethodVisitor;
 import org.ekstazi.asm.Opcodes;
+import org.ekstazi.log.Log;
 
 /**
  * {@link ClassFileTransformer} to instrument JUnit to support collecting
@@ -36,7 +37,7 @@ public class JUnitCFT implements ClassFileTransformer {
 
     private static class JUnitClassVisitor extends ClassVisitor {
         private final String mClassName;
-        
+
         public JUnitClassVisitor(String className, ClassVisitor cv) {
             super(Instr.ASM_API_VERSION, cv);
             this.mClassName = className;
@@ -53,28 +54,28 @@ public class JUnitCFT implements ClassFileTransformer {
     private static class JUnitMethodVisitor extends MethodVisitor {
         @SuppressWarnings("unused")
         private final String mClassName;
-        
+
         public JUnitMethodVisitor(String className, MethodVisitor mv) {
             super(Instr.ASM_API_VERSION, mv);
             this.mClassName = className;
         }
-        
+
         @Override
         public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
             // TODO: Check the owner.
             if (opcode == Opcodes.INVOKEVIRTUAL && name.equals(JUnitNames.RUNNER_FOR_CLASS_METHOD)
                     && desc.equals("(Ljava/lang/Class;)Lorg/junit/runner/Runner;")) {
                 mv.visitMethodInsn(Opcodes.INVOKESTATIC,
-                    JUnitNames.JUNIT4_MONITOR_VM,
-                    JUnitNames.RUNNER_FOR_CLASS_METHOD,
-                    "(L" + JUnitNames.RUNNER_BUILDER_VM + ";Ljava/lang/Class;)Lorg/junit/runner/Runner;",
-                    false);
+                        JUnitNames.JUNIT4_MONITOR_VM,
+                        JUnitNames.RUNNER_FOR_CLASS_METHOD,
+                        "(L" + JUnitNames.RUNNER_BUILDER_VM + ";Ljava/lang/Class;)Lorg/junit/runner/Runner;",
+                        false);
             } else {
                 mv.visitMethodInsn(opcode, owner, name, desc, itf);
             }
         }
     }
-    
+
     private static class TestSuiteClassVisitor extends ClassVisitor {
 
         public TestSuiteClassVisitor(ClassVisitor cv) {
@@ -90,7 +91,7 @@ public class JUnitCFT implements ClassFileTransformer {
             return mv;
         }
     }
-    
+
     public static class TestSuiteMethodVisitor extends MethodVisitor {
         public TestSuiteMethodVisitor(MethodVisitor mv) {
             super(Instr.ASM_API_VERSION, mv);
@@ -112,22 +113,24 @@ public class JUnitCFT implements ClassFileTransformer {
             }
         }
     }
-    
+
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
-            ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
+                            ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
         if (className.startsWith("org/apache/tools/ant") ||
                 className.startsWith("org/apache/maven") ||
                 className.startsWith("org/junit/")) {
+            //Log.d2f("In JUnitCFT.java:line118: " + className);
+            //Thread.dumpStack();
             ClassReader classReader = new ClassReader(classfileBuffer);
             ClassWriter classWriter = new ClassWriter(classReader,
-            /* ClassWriter.COMPUTE_FRAMES | */ClassWriter.COMPUTE_MAXS);
+                    /* ClassWriter.COMPUTE_FRAMES | */ClassWriter.COMPUTE_MAXS);
             JUnitClassVisitor visitor = new JUnitClassVisitor(className, classWriter);
             classReader.accept(visitor, 0);
             return classWriter.toByteArray();
         } else if (className.equals("junit/framework/TestSuite")) {
             ClassReader classReader = new ClassReader(classfileBuffer);
             ClassWriter classWriter = new ClassWriter(classReader,
-            ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
+                    ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
             TestSuiteClassVisitor visitor = new TestSuiteClassVisitor(classWriter);
             classReader.accept(visitor, 0);
             return classWriter.toByteArray();

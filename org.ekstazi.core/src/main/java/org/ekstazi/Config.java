@@ -94,7 +94,8 @@ public final class Config {
         SINGLEFORK,
         MULTI,
         JUNIT,
-        JUNIT5,
+        JUNIT5INSERTION,
+        JUNIT5EXTENSION,
         JUNITFORK,
         SCALATEST;
 
@@ -102,9 +103,12 @@ public final class Config {
             if (text != null) {
                 for (AgentMode b : AgentMode.values()) {
                     if (text.equalsIgnoreCase(b.name())) {
-                        if (text.equalsIgnoreCase(JUNIT5.name()) ||
-                                (text.equalsIgnoreCase(JUNIT.name()) && JUNIT5_ENABLED_V))
-                            return JUNIT5;
+                        if (text.equalsIgnoreCase(JUNIT5INSERTION.name()) ||
+                                (text.equalsIgnoreCase(JUNIT.name()) && JUNIT5_INSERTION_ENABLED_V))
+                            return JUNIT5INSERTION;
+                        else if (text.equalsIgnoreCase(JUNIT5INSERTION.name()) ||
+                                (text.equalsIgnoreCase(JUNIT.name()) && JUNIT5_EXTENSION_ENABLED_V))
+                            return JUNIT5EXTENSION;
                         return b;
                     }
                 }
@@ -114,8 +118,12 @@ public final class Config {
     }
 
     @Opt(desc = "JUnit5")
-    public static Boolean JUNIT5_ENABLED_V = false;
-    protected static final String JUNIT5_ENABLED_N = "junit5.enabled";
+    public static Boolean JUNIT5_INSERTION_ENABLED_V = false;
+    protected static final String JUNIT5_ENABLED_N = "junit5.insertion.enabled";
+
+    @Opt(desc = "JUnit5-Extension")
+    public static Boolean JUNIT5_EXTENSION_ENABLED_V = false;
+    protected static final String JUNIT5_EXTENSION_ENABLED_N = "junit5.extension.enabled";
 
     @Opt(desc = "Mode")
     public static AgentMode MODE_V = AgentMode.NONE;
@@ -353,7 +361,8 @@ public final class Config {
 
     protected static void loadProperties(Properties props) {
         ROOT_DIR_V = getURIString(props, ROOT_DIR_N, ROOT_DIR_V);
-        JUNIT5_ENABLED_V = getBoolean(props, JUNIT5_ENABLED_N, JUNIT5_ENABLED_V);
+        JUNIT5_INSERTION_ENABLED_V = getBoolean(props, JUNIT5_ENABLED_N, JUNIT5_INSERTION_ENABLED_V);
+        JUNIT5_EXTENSION_ENABLED_V = getBoolean(props, JUNIT5_EXTENSION_ENABLED_N, JUNIT5_EXTENSION_ENABLED_V);
         MODE_V = AgentMode.fromString(getString(props, MODE_N, MODE_V.toString()));
         SINGLE_NAME_V = getString(props, SINGLE_NAME_N, SINGLE_NAME_V);
         DEPENDENCIES_FORMAT_V = getString(props, DEPENDENCIES_FORMAT_N, DEPENDENCIES_FORMAT_V);

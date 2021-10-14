@@ -16,19 +16,14 @@
 
 package org.ekstazi.maven;
 
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-import org.apache.maven.project.MavenProject;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.PluginExecution;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.FileOutputStream;
@@ -37,7 +32,6 @@ import java.util.Properties;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import java.net.URL;
 import java.net.URISyntaxException;
@@ -45,10 +39,8 @@ import java.net.URISyntaxException;
 import org.ekstazi.Config;
 import org.ekstazi.agent.EkstaziAgent;
 import org.ekstazi.check.AffectedChecker;
-import org.ekstazi.Names;
 import org.ekstazi.log.Log;
 import org.ekstazi.util.Types;
-import org.ekstazi.util.FileUtil;
 
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 
@@ -126,8 +118,10 @@ public class StaticSelectEkstaziMojo extends AbstractEkstaziMojo {
         boolean isForkMode = isForkMode(surefirePlugin);
         // Include agent to be used during test run.
         Log.d2f("Add java agent StaticSelectEkstaziMojo.java line 128");
-        if (Config.JUNIT5_ENABLED_V) {
-            addJavaAgent(Config.AgentMode.JUNIT5);
+        if (Config.JUNIT5_INSERTION_ENABLED_V) {
+            addJavaAgent(Config.AgentMode.JUNIT5INSERTION);
+        } else if (Config.JUNIT5_EXTENSION_ENABLED_V) {
+            addJavaAgent(Config.AgentMode.JUNIT5EXTENSION);
         } else {
             addJavaAgent(isForkMode ? Config.AgentMode.JUNITFORK : Config.AgentMode.JUNIT);
         }

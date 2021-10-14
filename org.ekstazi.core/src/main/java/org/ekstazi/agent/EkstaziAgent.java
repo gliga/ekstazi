@@ -19,19 +19,16 @@ package org.ekstazi.agent;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
 import java.lang.instrument.UnmodifiableClassException;
-import java.util.Iterator;
-import java.util.Set;
 
 import org.ekstazi.Config;
 import org.ekstazi.Ekstazi;
 import org.ekstazi.Names;
-import org.ekstazi.data.DependencyAnalyzer;
 import org.ekstazi.io.FileRecorder;
 import org.ekstazi.junit.JUnitCFT;
 import org.ekstazi.junit5.JUnit5CFT;
+import org.ekstazi.junit5Extension.JUnit5ExtensionCFT;
 import org.ekstazi.log.Log;
 import org.ekstazi.maven.MavenCFT;
-import org.ekstazi.monitor.CoverageMonitor;
 
 public class EkstaziAgent {
 
@@ -90,12 +87,15 @@ public class EkstaziAgent {
             if (initSingleCoverageMode(Config.SINGLE_NAME_V, instrumentation)) {
                 instrumentation.addTransformer(new CollectLoadedCFT(), false);
             }
-        } else if (Config.MODE_V == Config.AgentMode.JUNIT5) {
+        } else if (Config.MODE_V == Config.AgentMode.JUNIT5INSERTION) {
             Log.d2f("JUNIT5 is enabled");
             //Thread.dumpStack();
             instrumentation.addTransformer(new EkstaziCFT(), true);
             initJUnit5Mode(instrumentation);
-        }  else if (Config.MODE_V == Config.AgentMode.JUNIT) {
+        } else if (Config.MODE_V == Config.AgentMode.JUNIT5EXTENSION) {
+            instrumentation.addTransformer(new EkstaziCFT(), true);
+            initJUni5ExtensionMode(instrumentation);
+        } else if (Config.MODE_V == Config.AgentMode.JUNIT) {
             Log.d2f("JUNIT4 is enabled");
             //Thread.dumpStack();
             //System.out.println("In EkstaziAgent.java:line88: -> JUNIT");
@@ -185,6 +185,10 @@ public class EkstaziAgent {
 
     private static void initJUnit5Mode(Instrumentation instrumentation) {
         instrumentation.addTransformer(new JUnit5CFT(), false);
+    }
+
+    private static void initJUni5ExtensionMode(Instrumentation instrumentation) {
+        instrumentation.addTransformer(new JUnit5ExtensionCFT(), false);
     }
 
 

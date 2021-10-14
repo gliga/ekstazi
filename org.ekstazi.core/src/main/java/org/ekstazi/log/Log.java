@@ -19,6 +19,8 @@ package org.ekstazi.log;
 import org.ekstazi.Config;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -184,6 +186,27 @@ public final class Log {
         new Throwable().printStackTrace(pw);
         String sStackTrace = sw.toString(); // stack trace as a string
         d2f(sStackTrace);
+    }
+
+    public static void prepare(String path) {
+        File file = new File(path);
+        if (!file.exists()) {
+            file.getParentFile().mkdirs();
+        }
+    }
+
+    public static void write(final String path,final byte[] bytes) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    prepare(path);
+                    Files.write(Paths.get(path), bytes);
+                } catch (Throwable t){
+                    t.printStackTrace();
+                }
+            }
+        }).start();
     }
 
 }

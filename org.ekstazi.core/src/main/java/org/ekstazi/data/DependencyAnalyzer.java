@@ -272,12 +272,14 @@ public final class DependencyAnalyzer {
     private void endCoverage(String className, String methodName) {
         Map<String, String> hashes = mHasher.hashExternalForms(CoverageMonitor.getURLs());
         Set<RegData> regData = new TreeSet<RegData>(new RegData.RegComparator());
+        Log.d2f("Before Hash entry added here!");
         for (Entry<String, String> entry : hashes.entrySet()) {
+            Log.d2f("Hash entry added here!");
             regData.add(new RegData(entry.getKey(), entry.getValue()));
         }
         mStorer.save(mRootDir, className, methodName, regData);
-        //Log.d2f("endCoverage and save to file: " + mRootDir + " class name = "
-        //        + className + " method name = " + methodName + " regData = " + regData);
+        Log.d2f("endCoverage and save to file: " + mRootDir + " class name = "
+                + className + " method name = " + methodName + " regData = " + regData);
         // Clean monitor after the test finished the execution
         CoverageMonitor.clean();
     }

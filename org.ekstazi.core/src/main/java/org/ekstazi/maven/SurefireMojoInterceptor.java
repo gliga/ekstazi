@@ -156,6 +156,16 @@ public final class SurefireMojoInterceptor extends AbstractMojoInterceptor {
 
     private static void updateArgLine(Object mojo) throws Exception {
         Config.AgentMode junitMode = isOneVMPerClass(mojo) ? Config.AgentMode.JUNITFORK : Config.AgentMode.JUNIT;
+        /*
+        I will not update JUnit5 here, because ekstazi will load userProperties later,
+        so here Config.JUNIT5_ENABLED_V is always default value - false.
+         */
+//        if (Config.JUNIT5_ENABLED_V) {
+//            Log.d2f("Junit5 is set to enabled");
+//            junitMode = Config.AgentMode.JUNIT5;
+//        } else {
+//            Log.d2f("Junit5 hasn't been set successfully.");
+//        }
         String currentArgLine = (String) getField(ARGLINE_FIELD, mojo);
         String newArgLine = makeArgLine(mojo, junitMode, currentArgLine);
         setField(ARGLINE_FIELD, mojo, newArgLine);

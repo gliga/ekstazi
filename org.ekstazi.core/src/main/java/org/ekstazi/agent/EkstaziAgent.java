@@ -55,8 +55,8 @@ public class EkstaziAgent {
      */
     public static void premain(String options, Instrumentation instrumentation) { // for `java -javaagent:java -javaagent:org.ekstazi.core-${version}.jar=<options>`
         // Load options.
-        Log.d2f("premain-xixi");
-        //System.out.println("====>Shuai_Debug!!!!");
+        Log.d2f("premain-zzz");
+        System.out.println("====>Shuai_Debug!!!!");
         Thread.dumpStack();
         Config.loadConfig(options, false);
 
@@ -90,15 +90,15 @@ public class EkstaziAgent {
             if (initSingleCoverageMode(Config.SINGLE_NAME_V, instrumentation)) {
                 instrumentation.addTransformer(new CollectLoadedCFT(), false);
             }
-        } else if (Config.MODE_V == Config.AgentMode.JUNIT5) {
+        } else if (Config.JUNIT5_ENABLED_V) {
             Log.d2f("JUNIT5 is enabled");
-            //Thread.dumpStack();
+            Thread.dumpStack();
             instrumentation.addTransformer(new EkstaziCFT(), true);
             initJUnit5Mode(instrumentation);
         }  else if (Config.MODE_V == Config.AgentMode.JUNIT) {
             Log.d2f("JUNIT4 is enabled");
-            //Thread.dumpStack();
-            //System.out.println("In EkstaziAgent.java:line88: -> JUNIT");
+            Thread.dumpStack();
+            System.out.println("In EkstaziAgent.java:line88: -> JUNIT");
             instrumentation.addTransformer(new EkstaziCFT(), true);
             initJUnitMode(instrumentation);
         } else if (Config.MODE_V == Config.AgentMode.JUNITFORK) {
@@ -121,9 +121,13 @@ public class EkstaziAgent {
     public static void agentmain(String options, Instrumentation instrumentation) {
         if (Config.X_ENABLED_V) {
             Log.d2f("agentmain");
-            //Thread.dumpStack();
+            Thread.dumpStack();
             init(instrumentation);
             instrumentation.addTransformer(new MavenCFT(), true);
+//            if(Config.JUNIT5_ENABLED_V) {
+//                Log.d2f("JUNIT5 is enabled - EkstaziAgent line 121");
+//                initJUnit5Mode(instrumentation);
+//            }
             instrumentMaven(instrumentation);
         }
     }

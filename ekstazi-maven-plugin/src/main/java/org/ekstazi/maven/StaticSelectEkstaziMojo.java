@@ -126,11 +126,7 @@ public class StaticSelectEkstaziMojo extends AbstractEkstaziMojo {
         boolean isForkMode = isForkMode(surefirePlugin);
         // Include agent to be used during test run.
         Log.d2f("Add java agent StaticSelectEkstaziMojo.java line 128");
-        if (Config.JUNIT5_ENABLED_V) {
-            addJavaAgent(Config.AgentMode.JUNIT5);
-        } else {
-            addJavaAgent(isForkMode ? Config.AgentMode.JUNITFORK : Config.AgentMode.JUNIT);
-        }
+        addJavaAgent(isForkMode ? Config.AgentMode.JUNITFORK : Config.AgentMode.JUNIT);
 
         List<String> nonAffectedClasses = computeNonAffectedClasses();
         // Append excludes list to "excludesFile".

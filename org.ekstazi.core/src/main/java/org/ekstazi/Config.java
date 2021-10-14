@@ -102,9 +102,6 @@ public final class Config {
             if (text != null) {
                 for (AgentMode b : AgentMode.values()) {
                     if (text.equalsIgnoreCase(b.name())) {
-                        if (text.equalsIgnoreCase(JUNIT5.name()) ||
-                                (text.equalsIgnoreCase(JUNIT.name()) && JUNIT5_ENABLED_V))
-                            return JUNIT5;
                         return b;
                     }
                 }
@@ -114,7 +111,7 @@ public final class Config {
     }
 
     @Opt(desc = "JUnit5")
-    public static Boolean JUNIT5_ENABLED_V = false;
+    public static Boolean JUNIT5_ENABLED_V = true;
     protected static final String JUNIT5_ENABLED_N = "junit5.enabled";
 
     @Opt(desc = "Mode")
@@ -267,6 +264,7 @@ public final class Config {
     public static void loadConfig(String options, boolean force) {
         if (sIsInitialized && !force) return;
         sIsInitialized = true;
+
         Properties commandProperties = unpackOptions(options);
         String userHome = getUserHome();
         File userHomeDir = new File(userHome, Names.EKSTAZI_CONFIG_FILE);
@@ -353,7 +351,6 @@ public final class Config {
 
     protected static void loadProperties(Properties props) {
         ROOT_DIR_V = getURIString(props, ROOT_DIR_N, ROOT_DIR_V);
-        JUNIT5_ENABLED_V = getBoolean(props, JUNIT5_ENABLED_N, JUNIT5_ENABLED_V);
         MODE_V = AgentMode.fromString(getString(props, MODE_N, MODE_V.toString()));
         SINGLE_NAME_V = getString(props, SINGLE_NAME_N, SINGLE_NAME_V);
         DEPENDENCIES_FORMAT_V = getString(props, DEPENDENCIES_FORMAT_N, DEPENDENCIES_FORMAT_V);
@@ -543,7 +540,6 @@ public final class Config {
                 String[] keyValue = opt.split("=");
                 if (keyValue.length != 2) throw new RuntimeException("Incorrect argument: " + opt);
                 properties.put(keyValue[0], keyValue[1]);
-                Log.d2f("Key = " + keyValue[0] + " value = " + keyValue[1]);
             }
         }
         return properties;

@@ -104,11 +104,12 @@ public final class Config {
                 for (AgentMode b : AgentMode.values()) {
                     if (text.equalsIgnoreCase(b.name())) {
                         if (text.equalsIgnoreCase(JUNIT5INSERTION.name()) ||
-                                (text.equalsIgnoreCase(JUNIT.name()) && JUNIT5_INSERTION_ENABLED_V))
+                                (text.equalsIgnoreCase(JUNIT.name()) && JUNIT5_INSERTION_ENABLED_V)) {
                             return JUNIT5INSERTION;
-                        else if (text.equalsIgnoreCase(JUNIT5INSERTION.name()) ||
-                                (text.equalsIgnoreCase(JUNIT.name()) && JUNIT5_EXTENSION_ENABLED_V))
+                        } else if (text.equalsIgnoreCase(JUNIT5EXTENSION.name()) ||
+                                (text.equalsIgnoreCase(JUNIT.name()) && JUNIT5_EXTENSION_ENABLED_V)) {
                             return JUNIT5EXTENSION;
+                        }
                         return b;
                     }
                 }

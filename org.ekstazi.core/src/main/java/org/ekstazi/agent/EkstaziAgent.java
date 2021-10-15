@@ -54,7 +54,7 @@ public class EkstaziAgent {
         // Load options.
         Log.d2f("premain-xixi");
         //System.out.println("====>Shuai_Debug!!!!");
-        Thread.dumpStack();
+        //Thread.dumpStack();
         Config.loadConfig(options, false);
 
         if (Config.X_ENABLED_V) {
@@ -88,11 +88,12 @@ public class EkstaziAgent {
                 instrumentation.addTransformer(new CollectLoadedCFT(), false);
             }
         } else if (Config.MODE_V == Config.AgentMode.JUNIT5INSERTION) {
-            Log.d2f("JUNIT5 is enabled");
+            Log.d2f("JUNIT5_Insertion is enabled");
             //Thread.dumpStack();
             instrumentation.addTransformer(new EkstaziCFT(), true);
             initJUnit5Mode(instrumentation);
         } else if (Config.MODE_V == Config.AgentMode.JUNIT5EXTENSION) {
+            Log.d2f("JUNIT5_Extension is enabled");
             instrumentation.addTransformer(new EkstaziCFT(), true);
             initJUni5ExtensionMode(instrumentation);
         } else if (Config.MODE_V == Config.AgentMode.JUNIT) {

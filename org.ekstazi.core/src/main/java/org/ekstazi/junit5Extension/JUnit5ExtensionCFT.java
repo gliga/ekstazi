@@ -2,11 +2,14 @@ package org.ekstazi.junit5Extension;
 
 import org.ekstazi.agent.Instr;
 import org.ekstazi.asm.*;
+import org.ekstazi.log.Log;
+
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 
 public class JUnit5ExtensionCFT implements ClassFileTransformer {
+    private static int count = 0;
 
     public static class ExtensionClassVisitor extends ClassVisitor {
         protected Boolean hasExtendWithAnnotation;
@@ -28,7 +31,7 @@ public class JUnit5ExtensionCFT implements ClassFileTransformer {
         @Override
         public void visitEnd() {
             if (!hasExtendWithAnnotation) {
-                AnnotationVisitor av = this.visitAnnotation("Lorg/junit/jupiter/api/extension/ExtendWith;", true);
+                AnnotationVisitor av = this.visitAnnotation("Lorg/junit/jupiter/api/extension/ExtendWith;", false);
                 av = av.visitArray("value");
                 av.visitEnd();
                 hasExtendWithAnnotation = true;
@@ -57,8 +60,8 @@ public class JUnit5ExtensionCFT implements ClassFileTransformer {
 
                 @Override
                 public void visitEnd() {
-                    visit("null", Type.getType("Lorg.ekstazi.junit5Extension.CoverageExtension;"));
-                    visit("null", Type.getType("Lorg.ekstazi.junit5Extension.ResultExtension;"));
+                    visit("null", Type.getObjectType("org/ekstazi/junit5Extension/CoverageExtension"));
+                    visit("null", Type.getObjectType("org/ekstazi/junit5Extension/ResultExtension"));
                     super.visitEnd();
                 }
             }
@@ -69,15 +72,15 @@ public class JUnit5ExtensionCFT implements ClassFileTransformer {
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
         if (className.contains("Test") &&
                 !className.contains("org/apache/tools/ant") &&
-                !className.startsWith("org/apache/maven") &&
-                !className.contains("junit") &&
+                !className.contains("maven") &&
+                !className.contains("junit") && !className.contains("jupiter") &&
                 !className.contains("opentest4j") &&
                 !className.contains("ekstazi")) {
             ClassReader classReader = new ClassReader(classfileBuffer);
             ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
             ExtensionClassVisitor visitor = new ExtensionClassVisitor(classWriter);
             classReader.accept(visitor, 0);
-            //Log.write("/Users/alenwang/Documents/xlab/junit5_demo/Shuai_debug.class", classWriter.toByteArray());
+            Log.write("/Users/alenwang/Documents/xlab/junit5_demo/Shuai_debug" + count++ + ".class", classWriter.toByteArray());
             return classWriter.toByteArray();
         }
         return null;

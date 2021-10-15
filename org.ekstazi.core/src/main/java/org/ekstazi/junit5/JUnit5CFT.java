@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.security.ProtectionDomain;
 
 public class JUnit5CFT implements ClassFileTransformer {
+    private static int count = 0;
 
     private static class TestClassVisitor extends ClassVisitor {
         protected static String mClassName;
@@ -128,13 +129,10 @@ public class JUnit5CFT implements ClassFileTransformer {
             ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS);
             TestClassVisitor visitor = new TestClassVisitor(className.replace('/','.'), classWriter);
             classReader.accept(visitor, 0);
-            //Log.write("/Users/alenwang/Documents/xlab/junit5_demo/Shuai_debug.class", classWriter.toByteArray());
+            Log.write("/Users/alenwang/Documents/xlab/junit5_demo/Shuai_debug" + count++ +".class", classWriter.toByteArray());
             return classWriter.toByteArray();
         }
         return null;
     }
-
-
-
 }
 

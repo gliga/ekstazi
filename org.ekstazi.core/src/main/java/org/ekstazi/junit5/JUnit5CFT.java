@@ -4,15 +4,12 @@ import org.ekstazi.agent.Instr;
 import org.ekstazi.asm.*;
 import org.ekstazi.log.Log;
 
-import java.io.File;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.ProtectionDomain;
 
 public class JUnit5CFT implements ClassFileTransformer {
-    private static int count = 0;
+    //private static int count = 0;
 
     private static class TestClassVisitor extends ClassVisitor {
         protected static String mClassName;
@@ -129,7 +126,7 @@ public class JUnit5CFT implements ClassFileTransformer {
             ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS);
             TestClassVisitor visitor = new TestClassVisitor(className.replace('/','.'), classWriter);
             classReader.accept(visitor, 0);
-            Log.write("/Users/alenwang/Documents/xlab/junit5_demo/Shuai_debug" + count++ +".class", classWriter.toByteArray());
+            //Log.write("/Users/alenwang/Documents/xlab/junit5_demo/Shuai_debug" + count++ +".class", classWriter.toByteArray());
             return classWriter.toByteArray();
         }
         return null;

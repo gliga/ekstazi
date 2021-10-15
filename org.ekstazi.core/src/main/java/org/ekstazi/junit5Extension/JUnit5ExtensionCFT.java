@@ -9,7 +9,7 @@ import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 
 public class JUnit5ExtensionCFT implements ClassFileTransformer {
-    private static int count = 0;
+    //private static int count = 0;
 
     public static class ExtensionClassVisitor extends ClassVisitor {
         protected Boolean hasExtendWithAnnotation;
@@ -80,7 +80,7 @@ public class JUnit5ExtensionCFT implements ClassFileTransformer {
             ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
             ExtensionClassVisitor visitor = new ExtensionClassVisitor(classWriter);
             classReader.accept(visitor, 0);
-            Log.write("/Users/alenwang/Documents/xlab/junit5_demo/Shuai_debug" + count++ + ".class", classWriter.toByteArray());
+            //Log.write("/Users/alenwang/Documents/xlab/junit5_demo/Shuai_debug" + count++ + ".class", classWriter.toByteArray());
             return classWriter.toByteArray();
         }
         return null;

@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.ekstazi</groupId>
     <artifactId>org.ekstazi.parent</artifactId>
-    <version>5.3.0</version> <!-- EkstaziVersion -->
+    <version>6.0.0-SNAPSHOT</version> <!-- EkstaziVersion -->
   </parent>
 
   <artifactId>org.ekstazi.core</artifactId>

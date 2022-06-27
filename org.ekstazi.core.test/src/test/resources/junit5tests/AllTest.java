@@ -1,9 +1,7 @@
 import org.junit.platform.suite.api.Suite;
-import org.junit.platform.suite.api.IncludeClassNamePatterns;
+import org.junit.platform.suite.api.SelectClasses;
 
 @Suite
-@IncludeClassNamePatterns({
-    "ATest", "BTest"
-})
+@SelectClasses({ATest.class, BTest.class})
 public class AllTest {
 }

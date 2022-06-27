@@ -70,18 +70,14 @@ public class JUnitCFT implements ClassFileTransformer {
                         "createRegistryFrom",
                         "(Lorg/junit/jupiter/engine/extension/MutableExtensionRegistry;Ljava/util/stream/Stream;)Lorg/junit/jupiter/engine/extension/MutableExtensionRegistry;",
                         false);
-            }
-            // TODO: Check the owner.
-            // else if (opcode == Opcodes.INVOKEVIRTUAL && name.equals(JUnitNames.RUNNER_FOR_CLASS_METHOD)
-            //         && desc.equals("(Ljava/lang/Class;)Lorg/junit/runner/Runner;")) {
-            //     System.out.println("junit4: " + "name: " + name + " " + "desc: " + desc);
-            //     mv.visitMethodInsn(Opcodes.INVOKESTATIC,
-            //             JUnitNames.JUNIT4_MONITOR_VM,
-            //             JUnitNames.RUNNER_FOR_CLASS_METHOD,
-            //             "(L" + JUnitNames.RUNNER_BUILDER_VM + ";Ljava/lang/Class;)Lorg/junit/runner/Runner;",
-            //             false);
-            // } 
-            else {
+            } else if (opcode == Opcodes.INVOKEVIRTUAL && name.equals(JUnitNames.RUNNER_FOR_CLASS_METHOD)
+                    && desc.equals("(Ljava/lang/Class;)Lorg/junit/runner/Runner;")) {
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                        JUnitNames.JUNIT4_MONITOR_VM,
+                        JUnitNames.RUNNER_FOR_CLASS_METHOD,
+                        "(L" + JUnitNames.RUNNER_BUILDER_VM + ";Ljava/lang/Class;)Lorg/junit/runner/Runner;",
+                        false);
+            } else {
                 mv.visitMethodInsn(opcode, owner, name, desc, itf);
             }
         }

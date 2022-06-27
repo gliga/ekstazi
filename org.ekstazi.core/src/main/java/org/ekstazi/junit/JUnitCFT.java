@@ -36,7 +36,7 @@ public class JUnitCFT implements ClassFileTransformer {
 
     private static class JUnitClassVisitor extends ClassVisitor {
         private final String mClassName;
-        
+
         public JUnitClassVisitor(String className, ClassVisitor cv) {
             super(Instr.ASM_API_VERSION, cv);
             this.mClassName = className;
@@ -53,28 +53,40 @@ public class JUnitCFT implements ClassFileTransformer {
     private static class JUnitMethodVisitor extends MethodVisitor {
         @SuppressWarnings("unused")
         private final String mClassName;
-        
+
         public JUnitMethodVisitor(String className, MethodVisitor mv) {
             super(Instr.ASM_API_VERSION, mv);
             this.mClassName = className;
         }
-        
+
         @Override
         public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
-            // TODO: Check the owner.
-            if (opcode == Opcodes.INVOKEVIRTUAL && name.equals(JUnitNames.RUNNER_FOR_CLASS_METHOD)
-                    && desc.equals("(Ljava/lang/Class;)Lorg/junit/runner/Runner;")) {
+            if (owner.equals("org/junit/jupiter/engine/extension/MutableExtensionRegistry")
+                    && opcode == Opcodes.INVOKESTATIC && name.equals("createRegistryFrom")
+                    && desc.equals(
+                            "(Lorg/junit/jupiter/engine/extension/MutableExtensionRegistry;Ljava/util/stream/Stream;)Lorg/junit/jupiter/engine/extension/MutableExtensionRegistry;")) {
                 mv.visitMethodInsn(Opcodes.INVOKESTATIC,
-                    JUnitNames.JUNIT4_MONITOR_VM,
-                    JUnitNames.RUNNER_FOR_CLASS_METHOD,
-                    "(L" + JUnitNames.RUNNER_BUILDER_VM + ";Ljava/lang/Class;)Lorg/junit/runner/Runner;",
-                    false);
-            } else {
+                        JUnitNames.JUNIT5_MONITOR_VM,
+                        "createRegistryFrom",
+                        "(Lorg/junit/jupiter/engine/extension/MutableExtensionRegistry;Ljava/util/stream/Stream;)Lorg/junit/jupiter/engine/extension/MutableExtensionRegistry;",
+                        false);
+            }
+            // TODO: Check the owner.
+            // else if (opcode == Opcodes.INVOKEVIRTUAL && name.equals(JUnitNames.RUNNER_FOR_CLASS_METHOD)
+            //         && desc.equals("(Ljava/lang/Class;)Lorg/junit/runner/Runner;")) {
+            //     System.out.println("junit4: " + "name: " + name + " " + "desc: " + desc);
+            //     mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+            //             JUnitNames.JUNIT4_MONITOR_VM,
+            //             JUnitNames.RUNNER_FOR_CLASS_METHOD,
+            //             "(L" + JUnitNames.RUNNER_BUILDER_VM + ";Ljava/lang/Class;)Lorg/junit/runner/Runner;",
+            //             false);
+            // } 
+            else {
                 mv.visitMethodInsn(opcode, owner, name, desc, itf);
             }
         }
     }
-    
+
     private static class TestSuiteClassVisitor extends ClassVisitor {
 
         public TestSuiteClassVisitor(ClassVisitor cv) {
@@ -90,7 +102,7 @@ public class JUnitCFT implements ClassFileTransformer {
             return mv;
         }
     }
-    
+
     public static class TestSuiteMethodVisitor extends MethodVisitor {
         public TestSuiteMethodVisitor(MethodVisitor mv) {
             super(Instr.ASM_API_VERSION, mv);
@@ -112,7 +124,7 @@ public class JUnitCFT implements ClassFileTransformer {
             }
         }
     }
-    
+
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
             ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
         if (className.startsWith("org/apache/tools/ant") ||
@@ -120,14 +132,14 @@ public class JUnitCFT implements ClassFileTransformer {
                 className.startsWith("org/junit/")) {
             ClassReader classReader = new ClassReader(classfileBuffer);
             ClassWriter classWriter = new ClassWriter(classReader,
-            /* ClassWriter.COMPUTE_FRAMES | */ClassWriter.COMPUTE_MAXS);
+                    /* ClassWriter.COMPUTE_FRAMES | */ClassWriter.COMPUTE_MAXS);
             JUnitClassVisitor visitor = new JUnitClassVisitor(className, classWriter);
             classReader.accept(visitor, 0);
             return classWriter.toByteArray();
         } else if (className.equals("junit/framework/TestSuite")) {
             ClassReader classReader = new ClassReader(classfileBuffer);
             ClassWriter classWriter = new ClassWriter(classReader,
-            ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
+                    ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
             TestSuiteClassVisitor visitor = new TestSuiteClassVisitor(classWriter);
             classReader.accept(visitor, 0);
             return classWriter.toByteArray();

@@ -44,9 +44,10 @@ public class CoverageExtension implements InvocationInterceptor, AfterAllCallbac
             ReflectiveInvocationContext<Constructor<T>> invocationContext,
             ExtensionContext extensionContext)
             throws Throwable {
-        T o = invocation.proceed();
-        Ekstazi.inst().beginClassCoverage(o.getClass().getName());
-        return o;
+        if (extensionContext.getTestClass().isPresent()){
+            Ekstazi.inst().beginClassCoverage(extensionContext.getTestClass().getClass().getName());
+        }
+        return invocation.proceed();
     }
 
     @Override

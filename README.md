@@ -16,6 +16,7 @@ mvn install
 
 At this point, most of the instructions are located on the official
 [Ekstazi web page](http://ekstazi.org/).
+Note that current Ekstazi version is 6.0.0-SNAPSHOT.
 
 ## Research
 

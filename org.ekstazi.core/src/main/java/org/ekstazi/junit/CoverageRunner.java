@@ -65,12 +65,15 @@ public class CoverageRunner extends Runner implements Filterable, Sortable {
     
     @Override
     public Description getDescription() {
+        if (mWrappedRunner == null) {
+            return Description.EMPTY;
+        }
         return mWrappedRunner.getDescription();
     }
 
     @Override
     public void run(RunNotifier notifier) {
-        if (isIgnoreAllTests()) {
+        if (isIgnoreAllTests() || mWrappedRunner == null) {
             return;
         } else if (isRunWithoutCoverage()) {
             mWrappedRunner.run(notifier);

@@ -27,4 +27,5 @@ public final class JUnitNames {
     public static final String JUNIT4_MONITOR_VM = "org/ekstazi/junit/JUnit4Monitor";
     public static final String JUNIT3_MONITOR_BIN = "org.ekstazi.junit.JUnit3Monitor";
     public static final String JUNIT3_MONITOR_VM = "org/ekstazi/junit/JUnit3Monitor";
+    public static final String JUNIT5_MONITOR_VM = "org/ekstazi/junit/JUnit5Monitor";
 }

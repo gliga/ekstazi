@@ -3,11 +3,13 @@ Ekstazi
 
 <img src="http://ekstazi.org/Ekstazi.png" alt="Ekstazi" width="238" height="224"> 
 
-Ekstazi is a tool for Regression Test Selection (RTS) for Java.
+Ekstazi is a tool for optimizing software testing. Ekstazi implements
+Regression Test Selection (RTS) for Java, which is a technique to
+detect a set of tests that can be skipped after a code change.
 
 ## Build
 
-If you have Maven, building Ekstazi should be trivial:
+If you have Maven, building Ekstazi is trivial:
 ```
 mvn install
 ```
@@ -17,10 +19,20 @@ mvn install
 At this point, most of the instructions are located on the official
 [Ekstazi web page](http://ekstazi.org/).
 
+## Acknowledgments
+
+The Ekstazi Logo was designed by [Vladimir
+Petrovic](https://rs.linkedin.com/in/vladimirpetrovicdesign).  We also
+thank Aleksandar Milicevic for his feedback on this work and many
+members of the open-source community (especially Apache Commons Math
+developers, Apache CXF developers, and Apache Caml developers) for
+their willingness to communicate with us on topics related to Ekstazi.
+
 ## Research
 
 If you have used Ekstazi in a research project, please cite
 the research paper in any related publication:
+
 ```bibtex
 @inproceedings{GligoricETAL15Ekstazi,
   author = {Gligoric, Milos and Eloussi, Lamyaa and Marinov, Darko},

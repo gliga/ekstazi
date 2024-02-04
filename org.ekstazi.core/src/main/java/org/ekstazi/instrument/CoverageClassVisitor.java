@@ -56,7 +56,7 @@ public class CoverageClassVisitor extends ClassVisitor {
     // Java 23 67.0
 
     /** Max supported Java class file version */
-    protected final int MAX_SUPPORTED_JAVA_VERSION = 61;
+    protected final int MAX_SUPPORTED_JAVA_VERSION = 65;
 
     // TODO: Revisit the need for this var.
     /** Support for old Java version */

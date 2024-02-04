@@ -15,6 +15,9 @@ If you have Maven, building Ekstazi is trivial:
 JAVA_TOOL_OPTIONS="-Djdk.attach.allowAttachSelf=true" mvn install
 ```
 
+(`-Djdk.attach.allowAttachSelf=true` is required from Java 11 and
+`-Djava.security.manager=allow` is required from Java 21.)
+
 Building Ekstazi targets Java 8 bytecode specification. The following
 Java versions were used successfully to build Ekstazi code.
 

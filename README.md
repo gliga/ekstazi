@@ -19,6 +19,14 @@ mvn install
 At this point, most of the instructions are located on the official
 [Ekstazi web page](http://ekstazi.org/).
 
+## Versioning
+
+The table below shows the known working versions.
+
+| Java version | Maven version | Ekstazi SHA |
+| ------------ | ------------- | ----------- |
+| 8            | [3.5.2](https://archive.apache.org/dist/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz) | 29037145 |
+
 ## Acknowledgments
 
 The Ekstazi Logo was designed by [Vladimir
@@ -42,3 +50,8 @@ the research paper in any related publication:
   year = {2015},
 }
 ```
+
+## Contact
+
+Feel free to get in touch if you have any comments: Milos Gligoric
+<milos.gligoric@gmail.com>.

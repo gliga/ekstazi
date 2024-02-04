@@ -12,7 +12,7 @@ detect a set of tests that can be skipped after a code change.
 If you have Maven, building Ekstazi is trivial:
 
 ```
-JAVA_TOOL_OPTIONS="-Djdk.attach.allowAttachSelf=true" mvn install
+JAVA_TOOL_OPTIONS="-Djdk.attach.allowAttachSelf=true -Djava.security.manager=allow" mvn install
 ```
 
 (`-Djdk.attach.allowAttachSelf=true` is required from Java 11 and
@@ -23,7 +23,7 @@ Java versions were used successfully to build Ekstazi code.
 
 | Ekstazi SHA | Java | Maven |
 | ----------- | ---- | ----- |
-| 7ac45e0    | 8; 11; 17 | 3.5.2 |
+| 16fffb9e    | 8; 11; 17; 21 | 3.5.2 |
 
 ## Use
 
@@ -35,12 +35,16 @@ focus on Java LTS versions, other versions might work as well.)
 
 | Ekstazi SHA | Java | Maven | JUnit |
 | ----------- | ---- | ----- | ----- |
-| 7ac45e0    | 8; 11 :eight_pointed_black_star: ; 17 :eight_pointed_black_star: | 3.5.2 | 3.8.2; 4.10; 4.13.2 |
+| 16fffb9e    | 8; 11 :eight_pointed_black_star: ; 17 :eight_pointed_black_star: ; 21 :eight_pointed_black_star: | 3.5.2 | 3.8.2; 4.10; 4.13.2 |
 
 :eight_pointed_black_star: Running these configuration requires
 setting an extra option on command line:
 ```
 JAVA_TOOL_OPTIONS="-Djdk.attach.allowAttachSelf=true" mvn ...
+```
+You need an extra option for Java 21:
+```
+JAVA_TOOL_OPTIONS="-Djdk.attach.allowAttachSelf=true -Djava.security.manager=allow" mvn ...
 ```
 
 ## Acknowledgments

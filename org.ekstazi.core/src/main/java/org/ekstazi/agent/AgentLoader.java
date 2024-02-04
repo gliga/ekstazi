@@ -22,6 +22,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+import org.ekstazi.Config;
 import org.ekstazi.research.Research;
 import org.ekstazi.util.Types;
 
@@ -54,6 +55,7 @@ public final class AgentLoader {
         // initialization multiple times, which would lead to:
         // "libattach.so already loaded in another classloader".
         try {
+            Config.preLoadConfig();
             // Note that this class can be loaded by different classloaders, so
             // we cannot simply use static field to check if the class has been
             // initialized.

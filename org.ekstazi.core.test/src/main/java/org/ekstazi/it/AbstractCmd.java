@@ -46,6 +46,9 @@ public abstract class AbstractCmd {
     public final void execute() {
         try {
             String[] command = getCommand();
+            if (System.getProperty("os.name").toLowerCase().contains("win") && command[0].equals("mvn")) {
+                command[0] = "mvn.cmd";
+            }
             ProcessBuilder pb = new ProcessBuilder(command);
             pb.directory(mCwd);
             pb.redirectErrorStream(true);

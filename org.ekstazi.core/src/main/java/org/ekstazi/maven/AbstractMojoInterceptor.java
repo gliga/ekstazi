@@ -45,6 +45,7 @@ public abstract class AbstractMojoInterceptor {
 
     protected static final String SET_ARG_LINE = "setArgLine";
     protected static final String GET_ARG_LINE = "getArgLine";
+    // TODO: is this field only for Scala?
     /** argLine field name in ScalaTest mojo */
     protected static final String ARGLINE_FIELD = "argLine";
     

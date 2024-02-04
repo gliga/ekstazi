@@ -91,8 +91,6 @@ public final class MavenCFT implements ClassFileTransformer {
                 || className.equals(MavenNames.FAILSAFE_PLUGIN_VM)) {
             // If class has no execute method, nothing will change.
             return addInterceptor(className, classfileBuffer, MavenNames.SUREFIRE_INTERCEPTOR_CLASS_VM);
-        } else if (className.equals(MavenNames.TESTMOJO_VM)) {
-            return addInterceptor(className, classfileBuffer, MavenNames.SCALATEST_INTERCEPTOR_CLASS_VM);
         } else {
             return null;
         }

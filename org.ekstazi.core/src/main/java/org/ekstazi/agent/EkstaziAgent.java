@@ -82,8 +82,6 @@ public class EkstaziAgent {
             initJUnitMode(instrumentation);
         } else if (Config.MODE_V == Config.AgentMode.JUNITFORK) {
             initJUnitForkMode(instrumentation);
-        } else if (Config.MODE_V == Config.AgentMode.SCALATEST) {
-            initScalaTestMode(instrumentation);
         } else {
             System.err.println("ERROR: Incorrect options to agent. Mode is set to: " + Config.MODE_V);
             System.exit(1);
@@ -124,8 +122,7 @@ public class EkstaziAgent {
                 String name = clz.getName();
                 if (name.equals(Names.ABSTRACT_SUREFIRE_MOJO_CLASS_VM)
                         || name.equals(Names.SUREFIRE_PLUGIN_VM)
-                        || name.equals(Names.FAILSAFE_PLUGIN_VM)
-                        || name.equals(Names.TESTMOJO_VM)) {
+                        || name.equals(Names.FAILSAFE_PLUGIN_VM)) {
                     instrumentation.retransformClasses(clz);
                 }
             }
@@ -134,17 +131,6 @@ public class EkstaziAgent {
         }
     }
 
-    private static void initScalaTestMode(Instrumentation instrumentation) {
-        instrumentation.addTransformer(new EkstaziCFT(), true);
-        try {
-            Class<?> scalaTestCFT = Class.forName(Names.SCALATEST_CFT_BIN);
-            instrumentation.addTransformer((ClassFileTransformer) scalaTestCFT.newInstance(), false);
-        } catch (Exception e) {
-            System.err.println("ERROR: ScalaTest related classes are not on the path. Check if you specified dependencies on scalatest module.");
-            System.exit(1);
-        }
-    }
-    
     private static void initJUnitForkMode(Instrumentation instrumentation) {
         Config.X_INSTRUMENT_CODE_V = false;
         instrumentation.addTransformer(new JUnitCFT(), false);

@@ -27,10 +27,6 @@ public final class MavenNames {
     public static final String ABSTRACT_SUREFIRE_MOJO_VM = "org/apache/maven/plugin/surefire/AbstractSurefireMojo";
     public static final String SUREFIRE_INTERCEPTOR_CLASS_VM = "org/ekstazi/maven/SurefireMojoInterceptor";
 
-    // ScalaTest.
-    public static final String TESTMOJO_VM = "org/scalatest/tools/maven/TestMojo";
-    public static final String SCALATEST_INTERCEPTOR_CLASS_VM = "org/ekstazi/maven/ScalaTestMojoInterceptor";
-
     public static final String MOJO_EXECUTION_EXCEPTION_BIN = "org.apache.maven.plugin.MojoExecutionException";
 
     public static final String EXECUTE_MNAME = "execute";

@@ -7,14 +7,26 @@ detect a set of tests that can be skipped after a code change.
 
 <img src="http://ekstazi.org/Ekstazi.png" alt="Ekstazi" width="238" height="224"> 
 
-## Build
+## Developing
+
+### Building
 
 If you have Maven, building Ekstazi is trivial:
 ```
 mvn install
 ```
 
-## Usage
+Building Ekstazi targets Java 8 bytecode specification.
+
+### Testing
+
+Testing and "installing" jar can be done by executing the following:
+
+```
+JAVA_TOOL_OPTIONS="-Djdk.attach.allowAttachSelf=true" mvn install
+```
+
+## Using
 
 At this point, most of the instructions are located on the official
 [Ekstazi web page](http://ekstazi.org).
@@ -25,7 +37,13 @@ The table below shows the known working versions.
 
 | Ekstazi SHA | Java | Maven | JUnit |
 | ----------- | ---- | ----- | ----- |
-| bf330fae    | 8    | 3.5.2 | 3.8.2; 4.10; 4.13.2 |
+| bf330fae    | 8; 11:eight_pointed_black_star:    | 3.5.2 | 3.8.2; 4.10; 4.13.2 |
+
+:eight_pointed_black_star: Running these configuration requires
+setting an extra option on command line:
+```
+JAVA_TOOL_OPTIONS="-Djdk.attach.allowAttachSelf=true" mvn ...
+```
 
 ## Acknowledgments
 

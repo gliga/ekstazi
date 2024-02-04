@@ -172,11 +172,13 @@ public class FileRecorder extends SecurityManager {
     public void checkPrintJobAccess() {
     }
 
-    @Override
+    // keep for Java 8
+    // @Override
     public void checkSystemClipboardAccess() {
     }
 
-    @Override
+    // keep for Java 8
+    // @Override
     public void checkAwtEventQueueAccess() {
     }
 
@@ -192,7 +194,8 @@ public class FileRecorder extends SecurityManager {
     public void checkSetFactory() {
     }
 
-    @Override
+    // keep for Java 8
+    // @Override
     public void checkMemberAccess(Class<?> clazz, int which) {
     }
 

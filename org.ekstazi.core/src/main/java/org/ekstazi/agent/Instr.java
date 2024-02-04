@@ -25,7 +25,7 @@ import org.ekstazi.asm.Opcodes;
 public final class Instr {
 
     /** Used ASM API */
-    public static final int ASM_API_VERSION = Opcodes.ASM5;
+    public static final int ASM_API_VERSION = Opcodes.ASM9;
     
     /** Method descriptors */
     public static final String STRING_Z_CLASS_DESC = "(Ljava/lang/String;Z)Ljava/lang/Class;";

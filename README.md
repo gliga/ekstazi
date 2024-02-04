@@ -20,9 +20,9 @@ JAVA_TOOL_OPTIONS="-Djdk.attach.allowAttachSelf=true" mvn install
 Building Ekstazi targets Java 8 bytecode specification. The following
 Java versions were used successfully to build Ekstazi code.
 
-| Ekstazi SHA | Java |
-| ----------- | ---- |
-| bf330fae    | 8; 11; 17 |
+| Ekstazi SHA | Java | Maven |
+| ----------- | ---- | ----- |
+| bf330fae    | 8; 11; 17 | 3.5.2 |
 
 ## Use
 

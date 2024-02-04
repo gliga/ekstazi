@@ -75,8 +75,6 @@ public final class EkstaziCFT implements ClassFileTransformer {
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
             ProtectionDomain protectionDomain, byte[] classfileBuffer) {
 
-        System.out.println(className + " .1");
-
         // Ensure that monitor is accessible from the ClassLoader.
         if (!isMonitorAccessibleFromClassLoader(loader)) {
             return null;
@@ -105,15 +103,12 @@ public final class EkstaziCFT implements ClassFileTransformer {
             }
         }
 
-        System.out.println(className + " .2");
-
         // Instrument class.
         try {
             classfileBuffer = instrumentClass(loader, className, isBeingRedefined, storageResult, classfileBuffer);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        System.out.println(className + " .3" + (classfileBuffer != null));
 
         // Line for debugging.
         // saveClassfileBufferForDebugging(className, classfileBuffer);

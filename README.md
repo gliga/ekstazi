@@ -7,25 +7,40 @@ detect a set of tests that can be skipped after a code change.
 
 <img src="http://ekstazi.org/Ekstazi.png" alt="Ekstazi" width="238" height="224"> 
 
-## Build
+## Developing
+
+### Build
 
 If you have Maven, building Ekstazi is trivial:
+
 ```
-mvn install
+JAVA_TOOL_OPTIONS="-Djdk.attach.allowAttachSelf=true" mvn install
 ```
 
-## Usage
+Building Ekstazi targets Java 8 bytecode specification. The following
+Java versions were used successfully to build Ekstazi code.
+
+| Ekstazi SHA | Java | Maven |
+| ----------- | ---- | ----- |
+| bf330fae    | 8; 11; 17 | 3.5.2 |
+
+## Use
 
 At this point, most of the instructions are located on the official
 [Ekstazi web page](http://ekstazi.org).
 
-## Versioning
-
-The table below shows the known working versions.
+The table below shows the known working combination.  (Although we
+focus on Java LTS versions, other versions might work as well.)
 
 | Ekstazi SHA | Java | Maven | JUnit |
 | ----------- | ---- | ----- | ----- |
-| bf330fae    | 8    | 3.5.2 | 3.8.2; 4.10; 4.13.2 |
+| bf330fae    | 8; 11 :eight_pointed_black_star: ; 17 :eight_pointed_black_star: | 3.5.2 | 3.8.2; 4.10; 4.13.2 |
+
+:eight_pointed_black_star: Running these configuration requires
+setting an extra option on command line:
+```
+JAVA_TOOL_OPTIONS="-Djdk.attach.allowAttachSelf=true" mvn ...
+```
 
 ## Acknowledgments
 
@@ -39,7 +54,8 @@ their willingness to communicate with us on topics related to Ekstazi.
 ## Research
 
 If you have used Ekstazi in a research project, please cite the
-following paper:
+following
+[paper](https://users.ece.utexas.edu/~gligoric/papers/GligoricETAL15Ekstazi.pdf):
 
 ```bibtex
 @inproceedings{GligoricETAL15Ekstazi,
@@ -54,4 +70,4 @@ following paper:
 ## Contact
 
 Feel free to get in touch if you have any comments: Milos Gligoric
-<milos.gligoric@gmail.com>.
+`<milos.gligoric@gmail.com>`.

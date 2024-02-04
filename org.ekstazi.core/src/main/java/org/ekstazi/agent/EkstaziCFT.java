@@ -104,7 +104,11 @@ public final class EkstaziCFT implements ClassFileTransformer {
         }
 
         // Instrument class.
-        classfileBuffer = instrumentClass(loader, className, isBeingRedefined, storageResult, classfileBuffer);
+        try {
+            classfileBuffer = instrumentClass(loader, className, isBeingRedefined, storageResult, classfileBuffer);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
         // Line for debugging.
         // saveClassfileBufferForDebugging(className, classfileBuffer);

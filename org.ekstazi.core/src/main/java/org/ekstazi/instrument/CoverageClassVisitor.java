@@ -60,7 +60,7 @@ public class CoverageClassVisitor extends ClassVisitor {
 
     // TODO: Revisit the need for this var.
     /** Support for old Java version */
-    protected final int MIN_OLD_JAVA_VERSION = 60;
+    protected final int MIN_OLD_JAVA_VERSION = 100;
     
     /** Name of the class being visited */
     protected final String mClassName;

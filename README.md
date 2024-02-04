@@ -17,15 +17,15 @@ mvn install
 ## Usage
 
 At this point, most of the instructions are located on the official
-[Ekstazi web page](http://ekstazi.org/).
+[Ekstazi web page](http://ekstazi.org).
 
 ## Versioning
 
 The table below shows the known working versions.
 
-| Java version | Maven version | Ekstazi SHA |
-| ------------ | ------------- | ----------- |
-| 8            | [3.5.2](https://archive.apache.org/dist/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz) | 29037145 |
+| Ekstazi SHA | Java | Maven | JUnit |
+| ----------- | ---- | ----- | ----- |
+| bf330fae    | 8    | 3.5.2 | 3.8.2; 4.10; 4.13.2 |
 
 ## Acknowledgments
 

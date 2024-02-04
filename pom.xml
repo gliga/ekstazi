@@ -95,9 +95,9 @@
         <version>3.2</version>
         <configuration>
           <debug>true</debug>
-          <debuglevel>none</debuglevel>
-          <source>1.6</source>
-          <target>1.6</target>
+          <!-- <debuglevel>none</debuglevel> -->
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
     </plugins>

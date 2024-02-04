@@ -29,7 +29,8 @@ Java versions were used successfully to build Ekstazi code.
 At this point, most of the instructions are located on the official
 [Ekstazi web page](http://ekstazi.org).
 
-The table below shows the known working combination.
+The table below shows the known working combination.  (Although we
+focus on Java LTS versions, other versions might work as well.)
 
 | Ekstazi SHA | Java | Maven | JUnit |
 | ----------- | ---- | ----- | ----- |

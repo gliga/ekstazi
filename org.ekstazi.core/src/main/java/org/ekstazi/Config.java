@@ -94,8 +94,7 @@ public final class Config {
         SINGLEFORK,
         MULTI,
         JUNIT,
-        JUNITFORK,
-        SCALATEST;
+        JUNITFORK;
         
         public static AgentMode fromString(String text) {
             if (text != null) {

@@ -60,9 +60,6 @@ public final class Names {
     public static final String ABSTRACT_SUREFIRE_MOJO_CLASS_VM = "org.apache.maven.plugin.surefire.AbstractSurefireMojo";
     public static final String SUREFIRE_PLUGIN_VM = "org/apache/maven/plugin/surefire/SurefirePlugin";
     public static final String FAILSAFE_PLUGIN_VM = "org/apache/maven/plugin/failsafe/IntegrationTestMojo";
-    public static final String TESTMOJO_VM = "org/scalatest/tools/maven/TestMojo";
-    // ScalaTest related classes.
-    public static final String SCALATEST_CFT_BIN = "org.ekstazi.scalatest.ScalaTestCFT";
 
     // Names of several files used by the tool.
     public static final String RUN_INFO_FILE_NAME = "run.info";

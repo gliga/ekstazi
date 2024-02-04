@@ -34,7 +34,7 @@ focus on Java LTS versions, other versions might work as well.)
 
 | Ekstazi SHA | Java | Maven | JUnit |
 | ----------- | ---- | ----- | ----- |
-| bf330fae    | 8; 11:eight_pointed_black_star:; 17:eight_pointed_black_star: | 3.5.2 | 3.8.2; 4.10; 4.13.2 |
+| bf330fae    | 8; 11 :eight_pointed_black_star: ; 17 :eight_pointed_black_star: | 3.5.2 | 3.8.2; 4.10; 4.13.2 |
 
 :eight_pointed_black_star: Running these configuration requires
 setting an extra option on command line:

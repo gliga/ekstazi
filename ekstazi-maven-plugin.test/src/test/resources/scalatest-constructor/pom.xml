@@ -9,7 +9,7 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-    <ekstaziVersion>4.6.3</ekstaziVersion>
+    <ekstaziVersion>5.3.0</ekstaziVersion> <!-- EkstaziVersion -->
     <scala.major>2.12</scala.major>
     <scala.version>2.12.4</scala.version>
     <scalatest.version>3.0.4</scalatest.version>

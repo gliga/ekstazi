@@ -5,7 +5,7 @@ Ekstazi is a tool for optimizing software testing. Ekstazi implements
 Regression Test Selection (RTS) for Java, which is a technique to
 detect a set of tests that can be skipped after a code change.
 
-<img src="http://ekstazi.org/Ekstazi.png" alt="Ekstazi" width="238" height="224"> 
+<img src="ekstazi.jpg" alt="Ekstazi" width="238" height="224"> 
 
 ## Developing
 

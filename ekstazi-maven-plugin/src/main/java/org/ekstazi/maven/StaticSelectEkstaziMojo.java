@@ -62,23 +62,6 @@ public class StaticSelectEkstaziMojo extends AbstractEkstaziMojo {
     private static final String[] sNonSupportedVersions = {"2.0-beta-1", "2.0", "2.1", "2.1.1", "2.1.2", "2.1.3", "2.2", "2.3", "2.3.1", "2.4", "2.4.1", "2.4.2", "2.4.3", "2.5", "2.6", "2.7", "2.7.1", "2.7.2", "2.8", "2.8.1", "2.9", "2.10", "2.11", "2.12", "2.12.1", "2.12.2", "2.12.3", "2.12.4"};
 
     /**
-     * Enable/disable forcing run of tests that failed last time they
-     * were run.
-     *
-     * @since 4.1.0
-     */
-    @Parameter(property = "ekstazi.forcefailing", defaultValue = "false")
-    private boolean forcefailing;
-
-    /**
-     * Enable/disable forcing run of all tests.
-     *
-     * @since 4.3.0
-     */
-    @Parameter(property = "ekstazi.forceall", defaultValue = "false")
-    private boolean forceall;
-
-    /**
      * Additional arguments passed to Ekstazi.
      *
      * @since 4.5.1
@@ -87,11 +70,11 @@ public class StaticSelectEkstaziMojo extends AbstractEkstaziMojo {
     protected String xargs;
 
     public boolean getForcefailing() {
-        return forcefailing;
+        return Config.FORCE_FAILING_V;
     }
 
     public boolean getForceall() {
-        return forceall;
+        return Config.FORCE_ALL_V;
     }
 
     public String getXargs() {
